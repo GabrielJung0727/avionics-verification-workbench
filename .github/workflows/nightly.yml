@@ -1,0 +1,38 @@
+name: Nightly
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # 06:00 UTC every day
+  workflow_dispatch: {}
+
+env:
+  PYTHON_VERSION: "3.12.4"
+
+jobs:
+  full-verification:
+    name: Full fault campaign + HIL sweep
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Determinism regression
+        run: python scripts/check_determinism.py
+      - name: Full verification (tests + M4 campaigns + M5 HF/HIL + bundle)
+        run: python scripts/run_verification.py
+      - name: Self-verify evidence bundles
+        run: |
+          set -e
+          for f in evidence/bundles/*.zip; do
+            echo "--- $f"
+            python scripts/replay_bundle.py "$f"
+          done
+      - name: Upload evidence archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-evidence-${{ github.run_id }}
+          path: |
+            evidence/verification-report.json
+            evidence/bundles/*.zip
+          retention-days: 90

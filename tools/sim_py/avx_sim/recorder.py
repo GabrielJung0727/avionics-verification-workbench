@@ -35,3 +35,33 @@ class Recorder:
 
     def __len__(self) -> int:
         return len(self.records)
+
+    # ---- replay ---------------------------------------------------------
+    @classmethod
+    def from_bytes(cls, data: bytes) -> "Recorder":
+        """Reconstruct a Recorder from a byte stream produced by to_bytes()."""
+        if data[:8] != b"AVX-REC\x01":
+            raise ValueError("not an AVX-REC stream")
+        pos = 8
+        (count,) = struct.unpack_from("<Q", data, pos); pos += 8
+        rec = cls()
+        for _ in range(count):
+            (ts,) = struct.unpack_from("<Q", data, pos); pos += 8
+            (bus_len,) = struct.unpack_from("<H", data, pos); pos += 2
+            bus = data[pos:pos + bus_len].decode("utf-8"); pos += bus_len
+            (msg_len,) = struct.unpack_from("<H", data, pos); pos += 2
+            msg = data[pos:pos + msg_len].decode("utf-8"); pos += msg_len
+            (payload_len,) = struct.unpack_from("<I", data, pos); pos += 4
+            payload = bytes(data[pos:pos + payload_len]); pos += payload_len
+            rec.records.append((ts, bus, msg, payload))
+        return rec
+
+    def iter_replay(self, bus: str | None = None, msg: str | None = None):
+        """Yield records in timestamp order, optionally filtered by bus / msg.
+        Drives downstream replay consumers deterministically."""
+        for ts, b, m, payload in self.records:
+            if bus is not None and b != bus:
+                continue
+            if msg is not None and m != msg:
+                continue
+            yield ts, b, m, payload

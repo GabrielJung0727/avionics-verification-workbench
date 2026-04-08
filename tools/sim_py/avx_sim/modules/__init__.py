@@ -9,6 +9,7 @@ from .data_concentrator import DataConcentrator, SensorRange
 from .engine import EngineInterface, EngineLimits, LimitState
 from .fcc import Fcc, FccLaneOutput
 from .display import DisplayComputer, DisplayFrame, AlertEntry
+from .voter import VoteResult, mid_value_select, majority_vote
 
 __all__ = [
     "DataConcentrator",
@@ -21,4 +22,7 @@ __all__ = [
     "DisplayComputer",
     "DisplayFrame",
     "AlertEntry",
+    "VoteResult",
+    "mid_value_select",
+    "majority_vote",
 ]

@@ -14,3 +14,9 @@ from .mode_confusion import (  # noqa: F401
     run_mode_confusion,
     MODE_CONFUSION_SCENARIOS,
 )
+from .pilot_timing import (  # noqa: F401
+    PilotTask,
+    TaskStep,
+    response_budget,
+    STANDARD_TASKS,
+)

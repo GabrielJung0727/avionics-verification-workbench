@@ -41,6 +41,15 @@ from avx_sim.hil import HilBridge, HilFaults, LoopbackMcu  # noqa: E402
 from avx_sim.messages import AlertLevel, EngineExceed     # noqa: E402
 from avx_sim.modules import DisplayComputer               # noqa: E402
 from evidence_bundler import build_bundle, verify_bundle  # noqa: E402
+from ai_assistant import (                                  # noqa: E402
+    triage_summary,
+    build_impact_index,
+    summarize_evidence_markdown,
+    draft_do178c_objective_table,
+    trace_mermaid,
+)
+from fault_injector.escape import collect_escapes, write_markdown  # noqa: E402
+from avx_sim.hf import STANDARD_TASKS, response_budget     # noqa: E402
 
 REQ_CSV = ROOT / "docs" / "M1" / "requirements" / "requirements.csv"
 TEST_DIR = ROOT / "tools" / "runner" / "test_cases"
@@ -230,6 +239,79 @@ def main() -> int:
     }
     out_path.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
     print(f"\nwrote {out_path.relative_to(ROOT)}")
+
+    # ---- Assurance extras (rule-based AI + escape + pilot timing) ------
+    ASSURANCE = EVIDENCE / "assurance"
+    ASSURANCE.mkdir(exist_ok=True)
+
+    # triage summary from the worst campaign's HM events would require the
+    # underlying record list; for now we summarize the overall structure.
+    triage_text = triage_summary([])
+    (ASSURANCE / "triage-DRAFT.md").write_text(
+        "# Triage (DRAFT)\n\n" + triage_text + "\n", encoding="utf-8"
+    )
+
+    # evidence markdown summary
+    (ASSURANCE / "evidence-summary-DRAFT.md").write_text(
+        summarize_evidence_markdown(out_path), encoding="utf-8"
+    )
+
+    # DO-178C objective draft
+    (ASSURANCE / "do178c-objectives-DRAFT.md").write_text(
+        draft_do178c_objective_table(out_path), encoding="utf-8"
+    )
+
+    # trace graph (mermaid text)
+    (ASSURANCE / "trace-graph-DRAFT.md").write_text(
+        "# Trace graph (DRAFT)\n\n" + trace_mermaid(trace) + "\n",
+        encoding="utf-8"
+    )
+
+    # change-impact index
+    idx = build_impact_index(TEST_DIR)
+    (ASSURANCE / "change-impact-index-DRAFT.json").write_text(
+        json.dumps({
+            "_draft": "DRAFT - human-in-the-loop",
+            "req_to_tests": idx.req_to_tests,
+            "req_to_code": idx.req_to_code,
+        }, indent=2, sort_keys=True),
+        encoding="utf-8",
+    )
+
+    # escape candidates
+    escape_input = []
+    for c in campaigns:
+        if c.get("classification") == "escaped":
+            # Locate the original campaign JSON to discover the fault type
+            src_path = CAMP_DIR / f"{c['id']}-afdx-delay.json"
+            # Best effort: match by id prefix
+            for p in CAMP_DIR.glob("*.json"):
+                if p.stem.startswith(c["id"]):
+                    src = json.loads(p.read_text(encoding="utf-8"))
+                    c = dict(c)
+                    c["_fault_hint"] = (src.get("faults") or [{}])[0].get("type", "")
+                    break
+        escape_input.append(c)
+    escapes = collect_escapes(escape_input)
+    write_markdown(escapes, ASSURANCE / "escape-candidates-DRAFT.md")
+
+    # pilot timing budget against current DSP latency
+    pilot_results = [
+        response_budget(t, display_latency_us=0)
+        for t in STANDARD_TASKS.values()
+    ]
+    (ASSURANCE / "pilot-timing-DRAFT.json").write_text(
+        json.dumps({"_draft": "DRAFT", "results": pilot_results},
+                   indent=2, sort_keys=True),
+        encoding="utf-8"
+    )
+
+    print("\n=== Assurance extras ===")
+    print(f"  triage-DRAFT.md, evidence-summary-DRAFT.md,")
+    print(f"  do178c-objectives-DRAFT.md, trace-graph-DRAFT.md,")
+    print(f"  change-impact-index-DRAFT.json,")
+    print(f"  escape-candidates-DRAFT.md ({len(escapes)} entries),")
+    print(f"  pilot-timing-DRAFT.json ({len(pilot_results)} tasks)")
 
     # ---- M6: build evidence bundle + self-verify -----------------------
     bundle_path = build_bundle(payload, ROOT, EVIDENCE / "bundles")
