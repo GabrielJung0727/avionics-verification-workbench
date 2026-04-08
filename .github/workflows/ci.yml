@@ -31,6 +31,21 @@ jobs:
       - name: Validate requirements.csv
         run: python scripts/check_requirements.py docs/M1/requirements/requirements.csv
 
+  python-tests:
+    name: Python reference simulator tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run unittest
+        run: python -m unittest discover -s tests/python -t . -v
+      - name: Smoke scenario
+        run: python scripts/run_smoke.py
+      - name: Determinism regression
+        run: python scripts/check_determinism.py
+
   build:
     name: CMake hello build
     runs-on: ubuntu-latest

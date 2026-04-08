@@ -1,0 +1,8 @@
+# M2 v0 partition table
+# id          period_ms  budget_us  offset_ms  crit
+P1_dc          10         800        0          C
+P2_fcc_cmd     20         1500       2          B
+P3_fcc_mon     20         1500       12         B
+P4_eng         50         1200       5          C
+P5_dsp         100        2000       30         C
+P6_hm          100        500        90         B
