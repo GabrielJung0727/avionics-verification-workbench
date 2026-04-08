@@ -1,0 +1,8 @@
+evidence/
+build/
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+.vscode/
+.idea/

@@ -1,0 +1,31 @@
+id,level,text,rationale,source,criticality,verify_method
+SYS-001,SYS,System shall run on a deterministic sim tick,Reproducibility,Quality attribute,High,Re-run with same seed
+SYS-002,SYS,All inter-module messages shall be timestamped,Trace and replay,Quality attribute,High,Bus recorder inspection
+SYS-003,SYS,System shall operate ARINC429-lite and AFDX-lite concurrently,Bus diversity demo,Architecture,Med,Integration test
+SYS-004,SYS,System shall enforce partition-level fault containment,IMA principle,DO-297,High,Fault injection
+SYS-005,SYS,System shall support sensor/bus/compute fault injection,Robustness eval,Verification,High,Campaign run
+SYS-006,SYS,All test results shall be exported as evidence bundle,Auditability,Verification,High,Bundle review
+SYS-007,SYS,Evidence bundle shall include git SHA tool version seed and hash,Reproducibility,Verification,High,Manifest check
+SYS-008,SYS,System shall provide bidirectional req-test trace,Traceability,DO-178C,High,Trace report
+SYS-009,SYS,System shall report orphan requirements and trace gaps,Coverage,DO-178C,Med,Gap report
+SYS-010,SYS,System shall log deadline misses to health monitor,Determinism,RT property,High,Scheduler test
+SYS-011,SYS,System shall support cold and warm start sequences,Operational,Architecture,Med,Scenario run
+SYS-012,SYS,System shall log degraded mode entry/exit,Diagnosability,Verification,Med,Log inspection
+SYS-013,SYS,AI assistant outputs shall be draft and never auto-merged,Human oversight,Project policy,High,Process review
+SYS-014,SYS,Workbench UI shall surface mode confusion risk items,Human factors,AC 20-175,Med,HF eval
+SYS-015,SYS,System shall produce MC/DC coverage for designated functions,Structural coverage,DO-178C,High,Coverage report
+HLR-FCC-001,HLR,FCC inputs shall pass range rate and freshness checks,Input integrity,FCC design,High,Unit + req-based
+HLR-FCC-002,HLR,FCC command and monitor lanes shall compute independently,Lane diversity,FCC design,High,Integration
+HLR-FCC-003,HLR,FCC shall transition to Alternate on lane disagreement,Safety,FCC design,High,Fault injection
+HLR-FCC-004,HLR,FCC shall revert to Direct on dual sensor fault,Safety,FCC design,High,Fault injection
+HLR-FCC-005,HLR,FCC mode change shall notify DSP within 1 tick,Pilot awareness,Integration,High,Bus latency test
+HLR-ENG-001,HLR,Engine I/F shall classify exceedances as caution or warning,Operational,Engine design,Med,Unit
+HLR-ENG-002,HLR,Engine I/F shall latch exceedance with hysteresis,Stability,Engine design,Med,Unit
+HLR-ENG-003,HLR,Engine I/F shall detect hot and hung start patterns,Safety,Engine design,Med,Scenario
+HLR-DSP-001,HLR,DSP shall order alerts warning caution advisory,HF,AC 20-175,High,HF eval
+HLR-DSP-002,HLR,DSP shall follow red amber green usage rule,HF,AC 20-175,High,Inspection
+HLR-DSP-003,HLR,DSP shall update mode annunciation within 100 ms of FCC notice,HF,Integration,High,Latency test
+HLR-DC-001,HLR,DC shall timestamp every sensor input before publish,Trace,Architecture,High,Unit
+HLR-DC-002,HLR,DC shall mark stale inputs with freshness flag,Integrity,Architecture,Med,Unit
+HLR-HM-001,HLR,HM shall collect partition deadline and IPC errors,Diagnosability,Architecture,High,Integration
+HLR-HM-002,HLR,HM shall map faults to actions per config,Configurability,Architecture,Med,Config test
