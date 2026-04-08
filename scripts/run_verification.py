@@ -40,6 +40,7 @@ from avx_sim.hf import (                                # noqa: E402
 from avx_sim.hil import HilBridge, HilFaults, LoopbackMcu  # noqa: E402
 from avx_sim.messages import AlertLevel, EngineExceed     # noqa: E402
 from avx_sim.modules import DisplayComputer               # noqa: E402
+from evidence_bundler import build_bundle, verify_bundle  # noqa: E402
 
 REQ_CSV = ROOT / "docs" / "M1" / "requirements" / "requirements.csv"
 TEST_DIR = ROOT / "tools" / "runner" / "test_cases"
@@ -214,7 +215,7 @@ def main() -> int:
           f"{coverage['__summary__']['executable']} "
           f"({summary['coverage_pct']}%)")
 
-    out_path = EVIDENCE / "m4-verification-report.json"
+    out_path = EVIDENCE / "verification-report.json"
     payload = {
         "summary": summary,
         "results": [asdict(r) for r in results],
@@ -229,6 +230,19 @@ def main() -> int:
     }
     out_path.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
     print(f"\nwrote {out_path.relative_to(ROOT)}")
+
+    # ---- M6: build evidence bundle + self-verify -----------------------
+    bundle_path = build_bundle(payload, ROOT, EVIDENCE / "bundles")
+    verify = verify_bundle(bundle_path)
+    print(f"\n=== Evidence bundle ===")
+    print(f"  path: {bundle_path.relative_to(ROOT)}")
+    print(f"  files: {len(verify['manifest']['files'])}")
+    print(f"  git_sha: {verify['manifest']['build']['git_sha'][:12]}")
+    print(f"  verify: {'OK' if verify['ok'] else 'FAIL'}")
+    if not verify["ok"]:
+        for m in verify["mismatches"]:
+            print(f"    - {m}")
+        return 1
 
     if fail_count or err_count:
         return 1
