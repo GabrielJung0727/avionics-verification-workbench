@@ -32,6 +32,14 @@ from runner import (  # noqa: E402
 from fault_injector import load_campaign, run_campaign  # noqa: E402
 from coverage_reporter import LineCoverage              # noqa: E402
 from avx_sim.mcdc import McdcTracker                    # noqa: E402
+from avx_sim.hf import (                                # noqa: E402
+    HfEvaluator,
+    MODE_CONFUSION_SCENARIOS,
+    run_mode_confusion,
+)
+from avx_sim.hil import HilBridge, HilFaults, LoopbackMcu  # noqa: E402
+from avx_sim.messages import AlertLevel, EngineExceed     # noqa: E402
+from avx_sim.modules import DisplayComputer               # noqa: E402
 
 REQ_CSV = ROOT / "docs" / "M1" / "requirements" / "requirements.csv"
 TEST_DIR = ROOT / "tools" / "runner" / "test_cases"
@@ -95,6 +103,35 @@ def main() -> int:
             c = load_campaign(path)
             campaigns.append(run_campaign(c))
 
+        # ---- M5: Human Factors evaluation -------------------------------
+        dsp_hf = DisplayComputer()
+        dsp_hf.receive_engine_exceed(EngineExceed(1, "n1", AlertLevel.WARNING, 105, True))
+        dsp_hf.receive_engine_exceed(EngineExceed(0, "egt", AlertLevel.CAUTION, 880, True))
+        hf_report = HfEvaluator(dsp_hf).run(now_us=0)
+        hf_findings = [
+            {"hf_id": f.hf_id, "title": f.title, "passed": f.passed,
+             "detail": f.detail, "ac_ref": f.ac_ref}
+            for f in hf_report.findings
+        ]
+
+        mode_confusion_results = [
+            run_mode_confusion(s) for s in MODE_CONFUSION_SCENARIOS
+        ]
+
+        # ---- M5: HIL-lite loopback ---------------------------------------
+        hil_runs = []
+        for name, faults in (
+            ("nominal", HilFaults()),
+            ("latency-5ms", HilFaults(latency_us=5000)),
+            ("drop-every-3", HilFaults(drop_every_n=3)),
+            ("reboot", HilFaults(reboot_at_cycle=10, brownout_cycles=3)),
+        ):
+            bridge = HilBridge(mcu=LoopbackMcu(faults=faults))
+            for i in range(60):
+                bridge.tick(now_us=i * 100, cmd=(0.0, 0.0, 0.0))
+            bridge.drain(now_us=60 * 100 + faults.latency_us + 1000)
+            hil_runs.append({"name": name, **bridge.measurement.summary()})
+
     McdcTracker.disable()
 
     trace = build_trace(results)
@@ -122,6 +159,15 @@ def main() -> int:
             2,
         ),
         "gap_uncovered_count": len(gap["requirements_uncovered"]),
+        "hf_total": len(hf_report.findings),
+        "hf_passed": sum(1 for f in hf_report.findings if f.passed),
+        "hf_failed": sum(1 for f in hf_report.findings if not f.passed),
+        "mode_confusion_total": len(mode_confusion_results),
+        "mode_confusion_ok": sum(
+            1 for r in mode_confusion_results
+            if r["terminal_mode_matches"] and r["history_depth_ok"]
+        ),
+        "hil_runs": len(hil_runs),
     }
 
     print("\n=== M4 Verification Summary ===")
@@ -146,6 +192,23 @@ def main() -> int:
         print(f"  {name}: {info['covered_conditions']}/{info['conditions']} "
               f"({info['pct'] * 100:.0f}%)  samples={info['samples']}")
 
+    print("\n=== HF Evaluation ===")
+    for f in hf_report.findings:
+        marker = "OK " if f.passed else "!! "
+        print(f"  {marker}{f.hf_id}: {f.title} - {f.detail}")
+
+    print("\n=== Mode Confusion ===")
+    for r in mode_confusion_results:
+        marker = "OK " if (r["terminal_mode_matches"] and r["history_depth_ok"]) else "!! "
+        print(f"  {marker}{r['id']}: mode={r['terminal_mode']} "
+              f"seen={r['modes_seen']} latency_violations={r['mode_latency_violations']}")
+
+    print("\n=== HIL-lite ===")
+    for r in hil_runs:
+        print(f"  {r['name']:<14} cycles={r['cycles']} "
+              f"lat_mean={r['latency_mean_us']}us lat_max={r['latency_max_us']}us "
+              f"drops={r['drops']} reboots={r['reboots']}")
+
     print(f"\n=== Coverage (avx_sim) ===")
     print(f"  total: {coverage['__summary__']['hit']}/"
           f"{coverage['__summary__']['executable']} "
@@ -160,6 +223,9 @@ def main() -> int:
         "gap": gap,
         "mcdc": mcdc,
         "coverage": coverage,
+        "hf_findings": hf_findings,
+        "mode_confusion": mode_confusion_results,
+        "hil_runs": hil_runs,
     }
     out_path.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
     print(f"\nwrote {out_path.relative_to(ROOT)}")

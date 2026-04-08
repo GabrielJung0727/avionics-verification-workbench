@@ -13,6 +13,8 @@ from .afdx import AfdxBus, VirtualLink
 from .recorder import Recorder
 from .partition_loader import load_partition_table
 from . import modules  # noqa: F401
+from . import hf       # noqa: F401
+from . import hil      # noqa: F401
 
 __all__ = [
     "SimClock",
