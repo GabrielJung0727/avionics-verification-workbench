@@ -12,6 +12,7 @@ from .a429 import A429Word, encode_a429, decode_a429
 from .afdx import AfdxBus, VirtualLink
 from .recorder import Recorder
 from .partition_loader import load_partition_table
+from . import modules  # noqa: F401
 
 __all__ = [
     "SimClock",

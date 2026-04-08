@@ -12,7 +12,7 @@
 [![HF](https://img.shields.io/badge/aware%20of-AC%2020--175-1f6feb?style=flat-square)](docs/M1/human-factors/hf-mapping.md)
 [![Build](https://img.shields.io/badge/build-CMake%20%7C%20C%2B%2B20-informational?style=flat-square)](CMakeLists.txt)
 [![Tooling](https://img.shields.io/badge/tooling-Python%20%7C%20React%20%7C%20Postgres-6f42c1?style=flat-square)](#-tech-stack)
-[![Status](https://img.shields.io/badge/status-M2%20Runtime%20%26%20Bus-brightgreen?style=flat-square)](docs/M2/plan/m2-status.md)
+[![Status](https://img.shields.io/badge/status-M3%20Functional%20Modules-brightgreen?style=flat-square)](docs/M3/plan/m3-status.md)
 [![License](https://img.shields.io/badge/license-MIT-success?style=flat-square)](#-license)
 
 [**🛠 What it is**](#-what-it-is) ·
@@ -212,7 +212,7 @@ This is a **learning-grade** workbench, not a certified product. The goal is to 
 |:---:|---|:---:|
 | **M1** | Architecture, requirements tree, ICD v0, certification & HF mapping | 🟢 Done |
 | **M2** | IMA-style scheduler, ARINC 429-lite & AFDX-lite buses | 🟢 Done |
-| **M3** | FCC surrogate, Engine I/F, Display Computer, Data Concentrator | ⚪ Planned |
+| **M3** | FCC surrogate, Engine I/F, Display Computer, Data Concentrator | 🟢 Done |
 | **M4** | Verification runner, coverage, MC/DC, fault-injection campaigns | ⚪ Planned |
 | **M5** | Human factors evaluation, HIL-lite bridge | ⚪ Planned |
 | **M6** | Evidence bundle, demo, portfolio pack | ⚪ Planned |
