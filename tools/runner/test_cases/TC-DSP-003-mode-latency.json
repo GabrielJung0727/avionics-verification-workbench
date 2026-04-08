@@ -1,0 +1,11 @@
+{
+  "id": "TC-DSP-003",
+  "req": ["HLR-DSP-003", "HLR-FCC-005"],
+  "description": "Mode change must be observable in DSP within partition cycle (no latency violations)",
+  "duration_ms": 300,
+  "world": {"seed": 1, "force_dual_fault_at_us": 50000},
+  "expects": {
+    "fcc_mode_terminal": "DIRECT",
+    "msg_ids_present": ["MSG-006"]
+  }
+}

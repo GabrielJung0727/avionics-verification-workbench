@@ -45,6 +45,8 @@ jobs:
         run: python scripts/run_smoke.py
       - name: Determinism regression
         run: python scripts/check_determinism.py
+      - name: M4 verification orchestrator
+        run: python scripts/run_verification.py
 
   build:
     name: CMake hello build

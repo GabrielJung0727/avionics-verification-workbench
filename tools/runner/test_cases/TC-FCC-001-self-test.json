@@ -1,0 +1,11 @@
+{
+  "id": "TC-FCC-001",
+  "req": ["HLR-FCC-008", "SYS-001"],
+  "description": "FCC self-test promotes OFF -> NORMAL on first step in nominal world",
+  "duration_ms": 50,
+  "world": {"seed": 1},
+  "expects": {
+    "fcc_mode_terminal": "NORMAL",
+    "msg_ids_present": ["MSG-001", "MSG-002", "MSG-003", "MSG-007"]
+  }
+}

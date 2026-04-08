@@ -1,0 +1,11 @@
+{
+  "id": "TC-ENG-001",
+  "req": ["HLR-ENG-001", "HLR-ENG-002", "HLR-ENG-004"],
+  "description": "N1 over warning band must produce HM events and remain latched",
+  "duration_ms": 2000,
+  "world": {"seed": 1, "n1_at_t1s": 104.0},
+  "expects": {
+    "engine_state_min": "WARNING",
+    "msg_ids_present": ["MSG-005"]
+  }
+}

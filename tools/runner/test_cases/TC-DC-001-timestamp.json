@@ -1,0 +1,10 @@
+{
+  "id": "TC-DC-001",
+  "req": ["HLR-DC-001", "SYS-002"],
+  "description": "Data Concentrator publishes timestamped MSG-001/002/003 every cycle",
+  "duration_ms": 100,
+  "world": {"seed": 1},
+  "expects": {
+    "msg_ids_present": ["MSG-001", "MSG-002", "MSG-003"]
+  }
+}

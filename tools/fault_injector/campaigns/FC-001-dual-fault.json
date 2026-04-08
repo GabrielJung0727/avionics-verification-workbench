@@ -1,0 +1,12 @@
+{
+  "id": "FC-001",
+  "description": "Dual sensor fault forces FCC into DIRECT mode",
+  "seed": 7,
+  "duration_ms": 200,
+  "faults": [
+    {"type": "force_dual_fault_at_us", "value": 50000}
+  ],
+  "expectations": {
+    "fcc_mode_terminal": "DIRECT"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "TC-AFDX-001",
+  "req": ["SYS-005", "SYS-022"],
+  "description": "AFDX-lite latency storm does not break the pipeline; render frames still emitted",
+  "duration_ms": 500,
+  "world": {"seed": 1, "afdx_delay_us": 80000},
+  "expects": {
+    "msg_ids_present": ["render", "snapshot", "MSG-001"]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "FC-003",
+  "description": "AFDX-lite latency storm on EngParams VL; pipeline must remain alive",
+  "seed": 7,
+  "duration_ms": 500,
+  "faults": [
+    {"type": "afdx_delay", "delay_us": 80000}
+  ],
+  "expectations": {}
+}

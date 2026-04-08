@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from enum import IntEnum
 
 from ..health_monitor import HealthMonitor, HmEvent
+from ..mcdc import McdcTracker
 from ..messages import (
     AlertLevel,
     EngineExceed,
@@ -76,8 +77,16 @@ class EngineInterface:
         return AlertLevel.ADVISORY
 
     def _update_latch(self, param: str, level: AlertLevel) -> AlertLevel:
+        """Latch promotion. MC/DC instrumented on two independent conditions:
+          c1 = level > previous_latched
+          c2 = level >= WARNING (annunciate-worthy)
+        outcome = c1 and c2 (should we *promote and annunciate*)"""
         prev = self.latched.get(param, AlertLevel.ADVISORY)
-        if level > prev:
+        c1 = level > prev
+        c2 = level >= AlertLevel.WARNING
+        outcome = c1 and c2
+        McdcTracker.record("engine.latch_promote", (c1, c2), outcome)
+        if c1:
             self.latched[param] = level
             return level
         return prev

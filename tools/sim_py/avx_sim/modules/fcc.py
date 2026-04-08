@@ -8,6 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from ..health_monitor import HealthMonitor, HmEvent
+from ..mcdc import McdcTracker
 from ..messages import (
     AirData,
     Attitude,
@@ -54,10 +55,26 @@ class Fcc:
 
     def _validate(self, air: AirData | None, att: Attitude | None,
                   now_us: int) -> tuple[bool, str]:
-        """HLR-FCC-001 — range / rate / freshness checks."""
-        if air is None or att is None:
+        """HLR-FCC-001 — range / rate / freshness checks. MC/DC instrumented.
+
+        We track four *logically independent* conditions so MC/DC pairs are
+        well defined under masking semantics:
+          c1 = air is not None
+          c2 = att is not None
+          c3 = air is None or air.freshness == OK     (vacuously True if absent)
+          c4 = att is None or att.freshness == OK
+        outcome = c1 and c2 and c3 and c4
+        """
+        c1 = air is not None
+        c2 = att is not None
+        c3 = (air is None) or (air.freshness == Freshness.OK)
+        c4 = (att is None) or (att.freshness == Freshness.OK)
+        outcome = c1 and c2 and c3 and c4
+        McdcTracker.record("fcc.validate", (c1, c2, c3, c4), outcome)
+
+        if not c1 or not c2:
             return False, "missing input"
-        if air.freshness != Freshness.OK or att.freshness != Freshness.OK:
+        if not c3 or not c4:
             return False, f"freshness air={air.freshness.name} att={att.freshness.name}"
         if self._last_ias >= 0 and abs(air.ias - self._last_ias) > self.rate_limit_ias:
             return False, "ias rate violation"

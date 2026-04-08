@@ -1,0 +1,10 @@
+{
+  "id": "FC-002",
+  "description": "N1 climbs to warning band; engine I/F must latch and HM must record",
+  "seed": 7,
+  "duration_ms": 2000,
+  "faults": [
+    {"type": "n1_at_t1s", "value": 104.0}
+  ],
+  "expectations": {}
+}
