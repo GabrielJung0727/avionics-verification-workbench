@@ -1,0 +1,9 @@
+# Avionics Verification Intelligence Platform — runtime dependencies.
+#
+# Phase B/C/D + serving rely on numpy + scikit-learn for the frozen learned
+# components and the in-process model registry. Pinned to lock CI behaviour;
+# bumping these triggers Phase C re-qualification per DO-330 hypotheses (see
+# docs/PhaseC/tool-qualification/do330-classification.md).
+
+numpy==1.26.4
+scikit-learn==1.6.1

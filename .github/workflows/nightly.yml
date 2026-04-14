@@ -17,6 +17,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
       - name: Determinism regression
         run: python scripts/check_determinism.py
       - name: Full verification (tests + M4 campaigns + M5 HF/HIL + bundle)
