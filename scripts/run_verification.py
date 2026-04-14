@@ -50,6 +50,10 @@ from ai_assistant import (                                  # noqa: E402
 )
 from fault_injector.escape import collect_escapes, write_markdown  # noqa: E402
 from avx_sim.hf import STANDARD_TASKS, response_budget     # noqa: E402
+from data_foundation import (                              # noqa: E402
+    detect_drift,
+    ingest_report,
+)
 
 REQ_CSV = ROOT / "docs" / "M1" / "requirements" / "requirements.csv"
 TEST_DIR = ROOT / "tools" / "runner" / "test_cases"
@@ -97,8 +101,20 @@ def _exercise_mcdc_decisions() -> None:
     eng._update_latch("x", AlertLevel.CAUTION)        # c1=F c2=F  out=F
 
 
+def _capture_bus_recording() -> None:
+    """Run the M2 smoke once and dump its recorder to evidence/ so the
+    bundler can ship it and Phase A can parse telemetry_event rows."""
+    from smoke_scenario import build_smoke
+    sched, rec, _hm, _ = build_smoke(seed=42)
+    sched.run_for(200_000)
+    out = EVIDENCE / "bus_recording_latest.bin"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_bytes(rec.to_bytes())
+
+
 def main() -> int:
     EVIDENCE.mkdir(exist_ok=True)
+    _capture_bus_recording()
     cases = discover_test_cases(TEST_DIR)
     print(f"discovered {len(cases)} test cases")
 
@@ -325,6 +341,25 @@ def main() -> int:
         for m in verify["mismatches"]:
             print(f"    - {m}")
         return 1
+
+    # ---- Phase A: schema drift gate + lakehouse ingest -----------------
+    drift = detect_drift(out_path)
+    print(f"\n=== Phase A drift gate ===")
+    print(f"  ok: {drift.ok}")
+    if not drift.ok:
+        for m in drift.missing:
+            print(f"    missing: {m}")
+        for m in drift.unexpected:
+            print(f"    unexpected: {m}")
+        return 1
+
+    summary_ingest = ingest_report(out_path, EVIDENCE / "lakehouse", bundle_path)
+    print(f"\n=== Phase A lakehouse ingest ===")
+    print(f"  run_id   : {summary_ingest.run_id}")
+    print(f"  bronze   : {summary_ingest.bronze_path.relative_to(ROOT)}")
+    print(f"  silver rows:")
+    for k, v in summary_ingest.rows_per_table.items():
+        print(f"    {k}: {v}")
 
     if fail_count or err_count:
         return 1

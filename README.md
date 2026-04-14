@@ -12,7 +12,7 @@
 [![HF](https://img.shields.io/badge/aware%20of-AC%2020--175-1f6feb?style=flat-square)](docs/M1/human-factors/hf-mapping.md)
 [![Build](https://img.shields.io/badge/build-CMake%20%7C%20C%2B%2B20-informational?style=flat-square)](CMakeLists.txt)
 [![Tooling](https://img.shields.io/badge/tooling-Python%20%7C%20React%20%7C%20Postgres-6f42c1?style=flat-square)](#-tech-stack)
-[![Status](https://img.shields.io/badge/status-M6%20Evidence%20%26%20Portfolio-brightgreen?style=flat-square)](docs/M6/plan/m6-status.md)
+[![Status](https://img.shields.io/badge/status-Phase%20A%20Data%20Foundation-brightgreen?style=flat-square)](docs/PhaseA/plan/phaseA-status.md)
 [![License](https://img.shields.io/badge/license-MIT-success?style=flat-square)](#-license)
 
 [**🛠 What it is**](#-what-it-is) ·

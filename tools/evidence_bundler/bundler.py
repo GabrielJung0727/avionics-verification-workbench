@@ -118,6 +118,10 @@ def _collect_files(payload: dict, repo: Path) -> _Files:
         "mode_confusion.json": j(payload.get("mode_confusion", [])),
         "hil_runs.json": j(payload.get("hil_runs", [])),
     }
+    # Optional bus recording produced by the orchestrator's smoke step.
+    rec_path = repo / "evidence" / "bus_recording_latest.bin"
+    if rec_path.exists():
+        results["bus_recording.bin"] = rec_path.read_bytes()
 
     trace: dict[str, bytes] = {
         "req_to_test.json": j(payload.get("trace", {})),
