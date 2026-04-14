@@ -26,6 +26,23 @@
     "draft_banner": "DRAFT — Learning / portfolio artefact. Not certification evidence. DAL / TQL / AI-level ratings are hypotheses.",
     "hard_line_label": "Hard line"
   },
+  "live": {
+    "backend_label": "Backend",
+    "loading": "Loading…",
+    "live": "Live",
+    "down": "Backend offline",
+    "backend_unreachable": "Backend unreachable — falling back to static content.",
+    "no_models": "No models registered.",
+    "section_live_summary_h": "Live summary",
+    "section_live_summary_sub": "When the backend is up, these numbers come straight from evidence/verification-report.json.",
+    "section_live_models_h": "Live model registry",
+    "section_live_models_sub": "Frozen models registered under evidence/registry/ with their assurance metadata.",
+    "predict_h": "Predict widget (escape predictor)",
+    "predict_intro": "Calls the fault_escape model live when the intelligence endpoint is running. Pick a preset or tune the values yourself.",
+    "predict_run": "Run prediction",
+    "predict_result": "Prediction result",
+    "predict_unreachable": "Predict endpoint unreachable."
+  },
   "home": {
     "hero_eyebrow": "Certification-aligned",
     "hero_h1": "Avionics Verification Intelligence Platform",

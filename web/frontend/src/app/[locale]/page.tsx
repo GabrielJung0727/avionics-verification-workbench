@@ -2,6 +2,8 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import ArchDiagram from "@/components/ArchDiagram";
 import MetricCard from "@/components/MetricCard";
+import LiveSummary from "@/components/LiveSummary";
+import BackendStatus from "@/components/BackendStatus";
 
 export default async function Home({
   params,
@@ -95,6 +97,14 @@ export default async function Home({
           <MetricCard label="Assurance cases" value="3 / 3" tone="ok" />
           <MetricCard label="Lakehouse Silver tables" value="9" />
           <MetricCard label="Evidence bundles" value="immutable + sha256 replay" />
+        </div>
+      </section>
+
+      {/* Live summary (only meaningful when backend is up) */}
+      <section className="mx-auto max-w-7xl px-4 pb-14">
+        <BackendStatus />
+        <div className="mt-4">
+          <LiveSummary />
         </div>
       </section>
 

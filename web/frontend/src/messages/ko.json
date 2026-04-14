@@ -26,6 +26,23 @@
     "draft_banner": "DRAFT — 학습·포트폴리오 용도. 인증 evidence 아님. DAL/TQL/AI-level은 모두 가정값입니다.",
     "hard_line_label": "Hard line"
   },
+  "live": {
+    "backend_label": "Backend",
+    "loading": "로딩 중…",
+    "live": "Live",
+    "down": "백엔드 미연결",
+    "backend_unreachable": "백엔드에 연결되지 않아 정적 콘텐츠를 표시합니다.",
+    "no_models": "등록된 모델이 없습니다.",
+    "section_live_summary_h": "Live summary",
+    "section_live_summary_sub": "백엔드가 켜져 있으면 evidence/verification-report.json의 최신 수치를 보여줍니다.",
+    "section_live_models_h": "Live model registry",
+    "section_live_models_sub": "evidence/registry/의 등록된 frozen 모델 + assurance 메타데이터.",
+    "predict_h": "예측 위젯 (escape predictor)",
+    "predict_intro": "intelligence 엔드포인트가 실행 중이면 라이브로 fault_escape 모델을 호출합니다. 프리셋을 고르거나 직접 값을 조정해 보세요.",
+    "predict_run": "예측 실행",
+    "predict_result": "예측 결과",
+    "predict_unreachable": "예측 엔드포인트에 도달할 수 없습니다."
+  },
   "home": {
     "hero_eyebrow": "Certification-aligned",
     "hero_h1": "항공전자 검증 인텔리전스 플랫폼",

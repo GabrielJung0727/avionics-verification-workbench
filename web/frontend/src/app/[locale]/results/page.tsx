@@ -1,5 +1,7 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import SectionTitle from "@/components/SectionTitle";
+import BackendStatus from "@/components/BackendStatus";
+import LiveSummary from "@/components/LiveSummary";
 
 type Row = { k: string; v: string };
 type Group = { h: string; rows: Row[] };
@@ -12,11 +14,25 @@ export default async function Results({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("results");
+  const tLive = await getTranslations("live");
   const groups = (t.raw("groups") as Group[]) ?? [];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-14">
       <SectionTitle title={t("h1")} sub={t("intro")} eyebrow="Snapshot" />
+
+      <section className="mb-10">
+        <BackendStatus />
+        <div className="mt-4">
+          <div className="label-mono mb-2 text-cyan">
+            {tLive("section_live_summary_h")}
+          </div>
+          <p className="mb-3 text-[13px] text-ink-400">
+            {tLive("section_live_summary_sub")}
+          </p>
+          <LiveSummary />
+        </div>
+      </section>
 
       <div className="grid gap-6 lg:grid-cols-2">
         {groups.map((g, i) => (

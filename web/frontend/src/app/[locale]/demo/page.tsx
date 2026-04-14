@@ -1,5 +1,7 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import SectionTitle from "@/components/SectionTitle";
+import PredictWidget from "@/components/PredictWidget";
+import BackendStatus from "@/components/BackendStatus";
 
 export default async function Demo({
   params,
@@ -47,6 +49,13 @@ export default async function Demo({
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="mt-12">
+        <BackendStatus />
+        <div className="mt-4">
+          <PredictWidget />
+        </div>
       </section>
     </div>
   );

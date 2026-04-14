@@ -2,6 +2,7 @@
 
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/routing";
+import BackendStatus from "./BackendStatus";
 
 const ITEMS = [
   { key: "home", href: "/" as const },
@@ -57,14 +58,17 @@ export default function Nav() {
           })}
         </nav>
 
-        <Link
-          href={pathname as any}
-          locale={otherLocale as "ko" | "en"}
-          className="badge"
-          aria-label={t("lang_label")}
-        >
-          {otherLocale.toUpperCase()}
-        </Link>
+        <div className="flex items-center gap-2">
+          <BackendStatus compact />
+          <Link
+            href={pathname as any}
+            locale={otherLocale as "ko" | "en"}
+            className="badge"
+            aria-label={t("lang_label")}
+          >
+            {otherLocale.toUpperCase()}
+          </Link>
+        </div>
       </div>
 
       <nav className="md:hidden border-t border-graphite-700/70 px-4 pb-2 pt-1">

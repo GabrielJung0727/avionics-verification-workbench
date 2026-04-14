@@ -54,6 +54,50 @@ Cloudflare Pages, Netlify, S3, or any static host.
 - `src/middleware.ts` adds locale prefixes for unmatched paths.
 - The language switch in the top-right preserves the current path.
 
+## Live mode (optional)
+
+The site is fully usable as a static portfolio. When the FastAPI backend
+under `web/backend/` (and optionally the Phase B intelligence endpoint
+from `scripts/serve_intelligence.py`) is running, four pages light up
+with real data:
+
+| Page | Live element | Source |
+|---|---|---|
+| `/` (Home) | `BackendStatus` + `LiveSummary` (8 cards) | `GET /api/results/summary` |
+| `/results` | `LiveSummary` above the static groups | same |
+| `/intelligence` | `LiveModels` cards (registry + assurance metadata) | `GET /api/registry/models` |
+| `/demo` | `PredictWidget` form calling escape predictor | `POST /api/predict/fault_escape` (proxied to intelligence endpoint) |
+
+The top-right `Live` / `Backend offline` badge in the nav reflects current
+backend state. Every live component **degrades gracefully** to a friendly
+"backend unreachable" line when offline — the static portfolio remains
+intact.
+
+### Configuring the backend URL
+
+```bash
+cp .env.example .env.local
+# edit NEXT_PUBLIC_BACKEND_URL if needed (default: http://localhost:8000)
+npm run dev
+```
+
+The variable is `NEXT_PUBLIC_*` so it's baked into the static export at
+build time.
+
+### Three-tier dev loop
+
+```bash
+# shell A — Phase B intelligence endpoint (predict)
+python scripts/serve_intelligence.py             # :8081
+
+# shell B — read-only backend (results / lakehouse / registry / proxy)
+INTELLIGENCE_ENDPOINT=http://127.0.0.1:8081 \
+  uvicorn web.backend.app.main:app --port 8000   # :8000
+
+# shell C — frontend
+cd web/frontend && npm run dev                   # :3000
+```
+
 ## Stack
 
 - Next.js 15 (App Router, RSC, static export)

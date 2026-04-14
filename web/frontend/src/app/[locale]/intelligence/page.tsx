@@ -1,5 +1,7 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import SectionTitle from "@/components/SectionTitle";
+import LiveModels from "@/components/LiveModels";
+import BackendStatus from "@/components/BackendStatus";
 
 type Phase = { id: string; h: string; body: string };
 
@@ -11,6 +13,7 @@ export default async function Intelligence({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("intelligence");
+  const tLive = await getTranslations("live");
   const phases = (t.raw("phases") as Phase[]) ?? [];
   const hardline = (t.raw("hardline") as string[]) ?? [];
 
@@ -38,6 +41,20 @@ export default async function Intelligence({
             </li>
           ))}
         </ul>
+      </section>
+
+      {/* Live registry */}
+      <section className="mt-12">
+        <div className="mb-4">
+          <BackendStatus />
+        </div>
+        <div className="label-mono mb-2 text-cyan">
+          {tLive("section_live_models_h")}
+        </div>
+        <p className="mb-4 text-[13px] text-ink-400">
+          {tLive("section_live_models_sub")}
+        </p>
+        <LiveModels />
       </section>
     </div>
   );
