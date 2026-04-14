@@ -57,12 +57,31 @@ def build_impact_index(test_cases_dir: str | Path) -> ImpactIndex:
     return idx
 
 
-def impact_for_requirement(idx: ImpactIndex, req_id: str) -> dict:
+def impact_for_requirement(idx: ImpactIndex, req_id: str,
+                           *, all_requirement_ids: list[str] | None = None
+                           ) -> dict:
     tests = idx.req_to_tests.get(req_id, [])
     code = idx.req_to_code.get(req_id) or _match_modules(req_id)
-    return {
+    out: dict = {
         "_draft": "DRAFT - human-in-the-loop change impact; review before use.",
         "req": req_id,
         "tests": sorted(tests),
         "code_paths": sorted(code),
     }
+
+    # Optional augmentation: if INTELLIGENCE_ENDPOINT is set and reachable,
+    # ask the trace_gap_intel model which OTHER requirements would likely be
+    # touched by editing the same code paths. Failure -> silent no-op.
+    if all_requirement_ids and code:
+        from .intelligence_client import trace_gap_or_none
+        ranked = trace_gap_or_none(
+            diff_paths=code, requirement_ids=all_requirement_ids, top_k=5,
+        )
+        if ranked:
+            out["adjacent_req_candidates"] = [
+                {"req_id": r["req_id"], "score": r["score"]}
+                for r in ranked if r.get("req_id") != req_id
+            ]
+            out["_endpoint_used"] = True
+
+    return out

@@ -1,18 +1,19 @@
 <div align="center">
 
-# ✈️ Avionics Verification Workbench
+# ✈️ Avionics Verification Intelligence Platform
 
-### Certification-aware integration & V&V platform for civil avionics software
+### Certification-aligned V&V + governed AI assurance layer for civil avionics software
 
-*Not another flight-control demo — a system-of-systems workbench where requirements, design, code, tests, and evidence stay traceable end-to-end.*
+*Not another flight-control demo. A platform where governed datasets, frozen learned components, and a deterministic safety shell improve verification under the lifecycles regulators currently accept.*
 
-[![Standards](https://img.shields.io/badge/aware%20of-DO--178C-0b3d91?style=flat-square)](docs/M1/certification/do178c-mapping.md)
-[![Standards](https://img.shields.io/badge/aware%20of-ARP4754A-0b3d91?style=flat-square)](docs/M1/certification/do178c-mapping.md)
-[![Standards](https://img.shields.io/badge/aware%20of-DO--297%20%2F%20AC%2020--170-0b3d91?style=flat-square)](docs/M1/certification/do178c-mapping.md)
+[![Standards](https://img.shields.io/badge/aware%20of-DO--178C-0b3d91?style=flat-square)](docs/PhaseE/standards/standards-mapping-v2.md)
+[![Standards](https://img.shields.io/badge/aware%20of-ARP4754A-0b3d91?style=flat-square)](docs/PhaseE/standards/standards-mapping-v2.md)
+[![Standards](https://img.shields.io/badge/aware%20of-DO--297%20%2F%20AC%2020--170-0b3d91?style=flat-square)](docs/PhaseE/standards/standards-mapping-v2.md)
 [![HF](https://img.shields.io/badge/aware%20of-AC%2020--175-1f6feb?style=flat-square)](docs/M1/human-factors/hf-mapping.md)
-[![Build](https://img.shields.io/badge/build-CMake%20%7C%20C%2B%2B20-informational?style=flat-square)](CMakeLists.txt)
-[![Tooling](https://img.shields.io/badge/tooling-Python%20%7C%20React%20%7C%20Postgres-6f42c1?style=flat-square)](#-tech-stack)
-[![Status](https://img.shields.io/badge/status-Phase%20A%20Data%20Foundation-brightgreen?style=flat-square)](docs/PhaseA/plan/phaseA-status.md)
+[![AI](https://img.shields.io/badge/aligned-EASA%20AI%20Concept%20Paper%20L1%C2%B72-9b59b6?style=flat-square)](docs/PhaseE/standards/standards-mapping-v2.md)
+[![AI](https://img.shields.io/badge/aligned-FAA%20AI%20Roadmap-9b59b6?style=flat-square)](docs/PhaseE/standards/standards-mapping-v2.md)
+[![Tooling](https://img.shields.io/badge/tooling-Python%20%7C%20sklearn%20%7C%20SQLite%E2%86%92Lakehouse-6f42c1?style=flat-square)](#-tech-stack)
+[![Status](https://img.shields.io/badge/status-Phase%20E%20Portfolio-brightgreen?style=flat-square)](docs/PhaseE/plan/phaseE-status.md)
 [![License](https://img.shields.io/badge/license-MIT-success?style=flat-square)](#-license)
 
 [**🛠 What it is**](#-what-it-is) ·
@@ -27,64 +28,69 @@
 
 ## ⭐ TL;DR
 
-> A learning-grade workbench that emulates how an **integrated modular avionics (IMA)** system is built, integrated, verified, and *evidenced* — the way real flight-software programs run, not the way side projects usually do.
+> *This project is not an AI flight controller. It is a **certification-aligned avionics verification intelligence platform** that uses governed datasets, traceable evidence, and bounded learned components to improve verification prioritization, anomaly detection, and operational assurance under existing aviation safety frameworks.*
 
-- **System-of-systems** — FCC surrogate, Engine I/F, Display Computer, Data Concentrator over a partitioned runtime and a virtual ARINC 429 / AFDX-lite bus.
-- **Verification-first** — requirement-based test runner, structural & MC/DC coverage, fault-injection campaigns, regression dashboard, immutable evidence bundles.
-- **Traceable end-to-end** — Req ↔ Design ↔ Code ↔ Test ↔ Result, with orphan & gap reports.
-- **AI in the assurance layer, never in the control loop** — test skeleton generation, log clustering, change-impact hints, all marked `draft, human-in-the-loop`.
+Two layers, one story:
 
-If you build flight-critical software for a living, this repo is meant to feel familiar.
-If you're hiring for one of those teams — keep reading. ⭐
+**The classical workbench (M1–M6)** — IMA-style partitioned scheduler, virtual ARINC 429 / AFDX-lite buses, FCC / Engine / Display / DC surrogates, requirement-based runner with MC/DC, fault-injection campaigns, AC 20-175 human-factors evaluators, HIL-lite loopback, **immutable evidence bundles with sha256 replay**.
+
+**The intelligence platform (Phase A–D)** — Bronze/Silver/Gold **lakehouse** + **frozen-model registry** + **GSN-lite assurance cases** with reviewer workflow + **runtime assurance shell** (range/rate/authority/watchdog) so AI components stay in the verification layer and never close a control loop. Aligned with EASA AI Concept Paper Level 1·2 and the FAA AI Roadmap incremental approach.
+
+If this kind of work matters to you — keep reading. ⭐
 
 ---
 
 ## 🛠 What it is
 
-Most "avionics" side projects re-implement a control law and stop. This one does the opposite: it takes the *boring but career-defining* parts of avionics software seriously.
-
-| You usually see | This workbench shows |
+| You usually see | This platform shows |
 |---|---|
 | A single FBW law | A **partitioned runtime** with budget enforcement and health monitoring |
-| Hard-coded I/O | A **virtual ARINC 429 + AFDX-lite bus** with timing, drop, delay, stale-data injection |
-| `assert` and a screenshot | A **requirement-based test runner** with structural & MC/DC coverage |
+| Hard-coded I/O | A **virtual ARINC 429 + AFDX-lite bus** with timing / drop / delay / stale-data injection |
+| `assert` and a screenshot | A **requirement-based test runner** with structural + MC/DC coverage |
 | "It works on my machine" | **Immutable evidence bundles** — git SHA, tool versions, seeds, hashes, replay-verified |
-| AI doing the flying | AI doing **triage, change impact, trace gap detection** — clearly marked draft |
+| Random model on a CSV | A **lakehouse + frozen-model registry** — `dataset_hash`, `label_version`, `approval_state` |
+| Model card | A **GSN-lite assurance case** with 12 required sections and a reviewer workflow |
+| "AI for autopilot" | A **runtime assurance shell** + Shadow → Advisory → LimitedSupervised; control loop stays deterministic |
 
-**Positioning:** This is *not* a certified system, *not* a flight-control product, and *not* an attempt to ship production avionics. It's a workbench built to demonstrate the engineering vocabulary, lifecycle awareness, and V&V instincts that real avionics teams expect.
+**Positioning:** Not a certified system. Not a flight-control product. A platform that demonstrates the engineering vocabulary, lifecycle awareness, V&V instincts, and **AI-in-aviation discipline** that real avionics teams expect — under the lifecycles regulators currently accept.
 
 ---
 
 ## 🏗 Architecture
 
 ```
-+---------------------------------------------------------------+
-|                      Workbench  (Web UI)                      |
-|     Req Tree │ Trace │ Dashboard │ Evidence Viewer            |
-+----------------------------+----------------------------------+
-                             │
-+----------------------------v----------------------------------+
-|                Backend  /  Trace DB  (Postgres)               |
-|       Evidence Bundler │ Coverage / MC-DC │ AI Assist         |
-+----------------------------+----------------------------------+
-                             │
-+----------------------------v----------------------------------+
-|             Deterministic Sim Kernel  (C++20)                 |
-|     IMA-style Scheduler │ Health Monitor │ Sampling/Queuing   |
-+--+-----------+-----------+----------+-----------+-------------+
-   │           │           │          │           │
-+--v--+    +---v---+   +---v----+ +---v----+  +---v---+
-| FCC |    |Engine |   |Display | | Data   |  | Health|
-| Sur |    |  I/F  |   |Computer| | Concen |  |Monitor|
-+--+--+    +---+---+   +---+----+ +---+----+  +---+---+
-   │           │           │          │           │
-+--v-----------v-----------v----------v-----------v---+
-|        Virtual Bus  ( ARINC 429-lite / AFDX-lite )  |
-|        + Recorder · Replay · Fault Injection        |
-+-----------------------------------------------------+
+┌──────────────────────────────────────────────────────────────────┐
+│                Verification Intelligence (Phase B/C/D)           │
+│                                                                  │
+│  Phase B frozen models           Phase D runtime guard           │
+│  ┌──────────────────┐            ┌──────────────────────────┐    │
+│  │ escape predictor │ ─raw out─► │ Range / Rate / Authority │    │
+│  │ engine anomaly   │            │ Watchdog / Operator gate │    │
+│  │ trace gap intel  │            └──────────────┬───────────┘    │
+│  └──────────────────┘                           │                │
+│         ▲                                       ▼                │
+│         │ load(approval_state)        Shadow / Advisory /        │
+│         │                             LimitedSupervised          │
+│  Phase C: GSN-lite assurance case + 3-state reviewer workflow    │
+└──────────────────────────────────────────────────────────────────┘
+                                ▲
+                                │ trains on Silver
+┌──────────────────────────────────────────────────────────────────┐
+│   Phase A — Lakehouse  (Bronze → Silver → Gold)                  │
+│   schema-drift gate · run_id lineage · dataset contract          │
+└──────────────────────────────────────────────────────────────────┘
+                                ▲
+                                │ orchestrator dumps
+┌──────────────────────────────────────────────────────────────────┐
+│   Deterministic Verification Workbench (M1–M6)                   │
+│                                                                  │
+│   IMA Scheduler · ARINC 429-lite · AFDX-lite · FCC / ENG / DSP   │
+│   Requirement-based runner · MC/DC · Fault campaigns · HF · HIL  │
+│   Immutable evidence bundles (manifest + sha256 + replay)        │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
-> Full block diagrams, partition tables, and ICD live under [`docs/M1/architecture`](docs/M1/architecture/) and [`docs/M1/icd`](docs/M1/icd/).
+> Full Phase A–E design lives under [`docs/PhaseA`](docs/PhaseA/) … [`docs/PhaseE`](docs/PhaseE/). Workbench M1–M6 lives under [`docs/M1`](docs/M1/) … [`docs/M6`](docs/M6/). 1-page architecture for PDF: [`docs/PhaseE/portfolio/one-page-architecture.md`](docs/PhaseE/portfolio/one-page-architecture.md).
 
 ---
 
@@ -154,39 +160,92 @@ Most "avionics" side projects re-implement a control law and stop. This one does
 
 </details>
 
+<details open>
+<summary><b>🗄 Phase A — Enterprise Data Foundation</b></summary>
+
+- Bronze / Silver / Gold lakehouse on SQLite (same SQL on Databricks / BigQuery / Athena)
+- 9 Silver tables, every row reachable by `run_id` (lineage anchor)
+- `bus_recording.bin` parsed into `telemetry_event` rows
+- Schema-drift gate fails the build on silent breakage
+- 4 Gold views: `daily_coverage`, `weekly_escape_rate`, `req_pass_rate`, `hil_latency_distribution`
+
+</details>
+
+<details open>
+<summary><b>🧠 Phase B — Certification Intelligence</b></summary>
+
+- 3 frozen learned components: escape predictor (sklearn GBC), engine anomaly (Isolation Forest), trace gap intel (rule-based v0 + ML interface)
+- Local MLflow-style registry — `dataset_hash + label_version + approval_state`
+- **Non-random splits enforced** (campaign-family / bench-seed / date — random forbidden)
+- Honest holdout AUC ≈ 0.99 with controlled label noise
+
+</details>
+
+<details open>
+<summary><b>📜 Phase C — Reviewable Safety Case</b></summary>
+
+- GSN-lite assurance case per model — 12 required sections, lint as PR gate
+- 3-state approval workflow (`auto-generated → reviewer-confirmed → board-approved`) with audit log
+- Self-review prohibited at code level (`PromotionError`)
+- DO-330 tool classification + TQL hypotheses for every in-house tool
+
+</details>
+
+<details open>
+<summary><b>🔬 Phase D — Bounded Operational AI</b></summary>
+
+- Runtime assurance shell: range / rate / authority / watchdog
+- Shadow → Advisory → LimitedSupervised mode progression
+- Below `board-approved` → loader refuses Advisory+ at runtime
+- `model.fit()` and `partial_fit()` raise `OnlineLearningAttempt`
+- Aligns with **EASA AI Concept Paper Level 1·2** + **FAA AI Roadmap incremental approach**
+
+</details>
+
 ---
 
 ## 🎬 Demo scenario
 
-> **"Sensor drift + bus latency spike + display refresh drop"** — one fault campaign that exercises the whole stack.
+> One command. End-to-end. Five minutes.
 
-1. Left air-data sensor begins to drift → freshness & range checks fire.
-2. FCC command and monitor lanes diverge → transition to `ALTERNATE`.
-3. AFDX VL latency spikes → health monitor logs degraded path.
-4. Display computer surfaces the new annunciation; mode-confusion risk flag is raised.
-5. Test runner links the run back to the requirements that fired.
-6. Regression dashboard updates pass / fail / coverage trends.
-7. AI assistant drafts a triage + change-impact summary (clearly marked).
-8. Evidence bundle is exported → re-run from the archive → hash matches.
+```bash
+$ python scripts/run_verification.py
+```
 
-📄 Full script → [`docs/M6/demo/demo-script.md`](docs/M6/demo/demo-script.md)
+1. Verification runner — 6 requirement-based test cases pass.
+2. Fault campaigns — 3 scenarios, classified `detected / mitigated / escaped`.
+3. MC/DC — 100% on the two designated decisions.
+4. Human factors — 6/6 evaluators green, 3/3 mode-confusion scenarios.
+5. HIL-lite — 4 configs (nominal / latency-5ms / drop-every-3 / reboot) with mean/max latency, jitter stddev, drops, reboots reported.
+6. Evidence bundle — built, sha256 self-verified, replayable from the archive.
+7. **Phase A** — schema-drift gate green, lakehouse ingest (13 outcomes / 3 campaigns / 88 telemetry events).
+8. **Phase B** — 3 frozen learned components trained, registered, dataset hashed.
+9. **Phase C** — every assurance case lint-passes; reviewer state machine enforced.
+10. **Phase D** — engine anomaly model runs in shadow against deterministic engine I/F; agreement / fallback / violation stats published. The deterministic pipeline is unaffected.
+
+📄 Full script v2 → [`docs/PhaseE/demo/demo-script-v2.md`](docs/PhaseE/demo/demo-script-v2.md)
 
 ---
 
-## 📐 Standards we're aware of
+## 📐 Standards & guidance
 
-This is a **learning-grade** workbench, not a certified product. The goal is to demonstrate fluency with the documents and lifecycle the industry actually uses.
+Learning-grade mapping — engineering fluency, not certified credit.
 
-| Standard | Where it shows up here |
+| Standard / Guidance | Where it shows up |
 |---|---|
-| **DO-178C** | Requirements tree, HLR/LLR split, structural & MC/DC coverage, objective mapping |
-| **DO-330** | Tool-qualification notes for the in-repo tooling |
-| **DO-331** | Model-based supplement notes for code-generated message schemas |
-| **ARP4754A** | System-level requirements flow, DAL assumptions, change impact |
-| **DO-297 / AC 20-170** | IMA partitioning, health monitoring, fault containment |
+| **DO-178C** | Requirements tree (33 SYS / 35 HLR), MC/DC + line coverage, objective mapping |
+| **DO-330** | Phase C tool classification + TQL hypotheses for every in-house tool |
+| **ARP4754A** | System-level requirements flow + DAL assumptions + change procedure |
+| **ARP4761A** | FC-01..12 failure conditions + safety analysis hypotheses |
+| **DO-297 / AC 20-170** | M2 IMA partitioning, health monitoring, fault containment |
 | **AC 20-175** | Flight-deck controls & alerting human-factors checklist |
+| **EASA AI Concept Paper (Issue 2, 2024)** | Phase B `frozen=true` + Phase D Shadow→Advisory ladder (Level 1·2 today) |
+| **FAA AI Roadmap (v1)** | Phase D runtime assurance shell + incremental adoption + `OnlineLearningAttempt` |
+| **FAA Order 8110.49A** | Phase A lineage queries (every Silver row reachable by `run_id`) |
 
-> ⚠️ DAL ratings, failure conditions, and tool qualification levels in this repo are **assumptions for portfolio purposes**. They are not — and do not claim to be — substantiated for certification.
+📄 Full v2 mapping → [`docs/PhaseE/standards/standards-mapping-v2.md`](docs/PhaseE/standards/standards-mapping-v2.md)
+
+> ⚠️ DAL ratings, failure conditions, TQL classifications, and AI level assignments in this repo are **assumptions for portfolio purposes**. They are not — and do not claim to be — substantiated for certification.
 
 ---
 
@@ -194,19 +253,21 @@ This is a **learning-grade** workbench, not a certified product. The goal is to 
 
 | Layer | Choice |
 |---|---|
-| Runtime core | **C++20** (some C) |
-| Sim kernel | Deterministic tick scheduler, seeded PRNG |
-| Tooling / scenarios | **Python 3** |
-| Workbench UI | **React + TypeScript** |
-| Data store | **PostgreSQL** |
-| Message schema | **Protobuf** (FlatBuffers under evaluation) |
-| Coverage | LLVM source-based + custom MC/DC reporter |
+| Runtime sim kernel | **Python 3.11** (deterministic tick, seeded PRNG; C++20 port deferred to hot paths) |
+| Lakehouse | **SQLite** (Bronze/Silver/Gold) — same ANSI SQL on Databricks / BigQuery / Athena |
+| Model registry | Local MLflow-style — pickle artifact + meta + dataset + metrics + assurance stub |
+| ML | **scikit-learn** (GradientBoostingClassifier + IsolationForest) |
+| Coverage | `sys.settrace` (line) + custom MC/DC tracker on designated decisions |
+| Bus sim | ARINC 429-lite (32-bit word + parity) + AFDX-lite (UDP-shaped, BAG-enforced) |
+| Evidence | Hermetic zip + manifest + sha256 + replay verifier |
 | CI | **GitHub Actions** |
-| HIL bridge | UDP / Serial / CAN |
+| HIL bridge | Loopback (UART/UDP-extensible) |
 
 ---
 
 ## 🗺 Roadmap
+
+**Workbench (M1–M6) — Deterministic verification platform**
 
 | Milestone | Focus | Status |
 |:---:|---|:---:|
@@ -217,7 +278,17 @@ This is a **learning-grade** workbench, not a certified product. The goal is to 
 | **M5** | Human factors evaluation, HIL-lite bridge | 🟢 Done |
 | **M6** | Evidence bundle, demo, portfolio pack | 🟢 Done |
 
-Each milestone has its own folder under `docs/` with design notes, checklists, and a Definition of Done.
+**Intelligence Platform (Phase A–E) — 2026-04-14 strategic pivot**
+
+| Phase | Focus | Status |
+|:---:|---|:---:|
+| **A** | Enterprise data foundation (Bronze/Silver/Gold + dataset contract + drift gate) | 🟢 Done |
+| **B** | Frozen learned components + local model registry (escape / engine anomaly / trace gap) | 🟢 Done |
+| **C** | GSN-lite assurance case + 3-state reviewer workflow + DO-330 classification | 🟢 Done |
+| **D** | Runtime assurance shell + Shadow → Advisory → LimitedSupervised + online-learning ban | 🟢 Done |
+| **E** | Portfolio packaging — README v2, FAQ, standards v2, 1-page architecture, demo v2 | 🟢 Done |
+
+Each phase has its own folder under `docs/PhaseX/` with design notes, checklists, and a Definition of Done.
 
 ---
 
@@ -225,15 +296,20 @@ Each milestone has its own folder under `docs/` with design notes, checklists, a
 
 ```
 docs/
-├── M1  Foundation        — architecture · requirements · ICD · cert mapping · HF
-├── M2  Runtime & Bus     — scheduler · A429-lite · AFDX-lite · recorder
-├── M3  Functional        — FCC · Engine I/F · Display Computer
-├── M4  Verification      — test runner · coverage · MC/DC · fault injection
-├── M5  HF & HIL          — human-factors evaluation · HIL-lite bridge
-└── M6  Delivery          — evidence bundle · demo · portfolio pack
+├── M1  Foundation         — architecture · requirements · ICD · cert mapping · HF
+├── M2  Runtime & Bus      — scheduler · A429-lite · AFDX-lite · recorder
+├── M3  Functional         — FCC · Engine I/F · Display Computer · DC
+├── M4  Verification       — test runner · coverage · MC/DC · fault injection
+├── M5  HF & HIL           — human-factors evaluation · HIL-lite bridge
+├── M6  Delivery           — evidence bundle · demo · portfolio pack v1
+├── PhaseA  Data Foundation — Bronze/Silver/Gold lakehouse + dataset contract
+├── PhaseB  Cert Intel     — frozen learned components + local model registry
+├── PhaseC  Safety Case    — GSN-lite assurance cases + reviewer workflow
+├── PhaseD  Bounded AI     — runtime assurance shell + Shadow→Advisory→LimSup
+└── PhaseE  Portfolio v2   — README v2 · FAQ · standards v2 · 1-page arch · demo v2
 ```
 
-Each milestone folder follows the same shape: **README → design notes → plan/DoD**.
+Every folder follows the same shape: **README → design notes → plan/DoD/status**.
 
 ---
 
@@ -241,40 +317,42 @@ Each milestone folder follows the same shape: **README → design notes → plan
 
 ```
 .
-├── docs/        # Milestone-organized design, requirements, ICD, certification, HF
-├── src/
-│   ├── core/        # Scheduler, health monitor, IPC
-│   ├── modules/     # FCC, Engine I/F, Display, Data Concentrator
-│   ├── bus/         # ARINC 429-lite, AFDX-lite, CAN
-│   └── common/      # Messages, time, logging
-├── tools/       # Trace DB, evidence bundler, coverage, MC/DC, fault injector, AI assist
-├── tests/       # unit · requirement-based · integration · fault campaigns · HIL
-├── sim/         # SIL · HIL bridge · scenarios
-├── web/         # Frontend (React/TS) + backend
-├── config/      # Partition tables, bus config, fault campaigns
-├── ci/          # CI helpers
-└── evidence/    # Generated bundles (gitignored)
+├── docs/                       # M1–M6 + Phase A–E design / status
+├── tools/
+│   ├── sim_py/avx_sim/         # Runtime sim (scheduler, bus, modules, HF, HIL)
+│   ├── runner/                 # JSON test-case verification runner
+│   ├── fault_injector/         # Campaign loader + escape classifier
+│   ├── coverage_reporter/      # Line coverage via sys.settrace
+│   ├── evidence_bundler/       # Hermetic zip + manifest + sha256
+│   ├── ai_assistant/           # Rule-based assurance helpers (DRAFT)
+│   ├── data_foundation/        # Phase A: Bronze/Silver/Gold + lineage + drift
+│   └── intelligence/           # Phase B/C/D: registry + governance + runtime
+├── tests/python/               # 145 tests (M2..Phase D)
+├── sim/scenarios/              # Smoke + M3 integration scenarios
+├── scripts/                    # Orchestrators + CLIs
+├── config/                     # Partition tables, bus config
+└── evidence/                   # verification-report.json + bundles + lakehouse + registry (gitignored)
 ```
 
 ---
 
 ## 🚀 Getting started
 
-> M2 produces the first runnable artifact. Until then, the value lives in `docs/`.
-
 ```bash
 git clone https://github.com/<you>/avionics-verification-workbench.git
 cd avionics-verification-workbench
 
-# Skim the foundation
-$EDITOR docs/M1/architecture/system-overview.md
-$EDITOR docs/M1/requirements/requirements-tree.md
-$EDITOR docs/M1/icd/icd-v0.md
+# Run the whole platform (M1–M6 + Phase A–D) end-to-end
+python scripts/run_verification.py
 
-# (M2+) build
-cmake -S . -B build
-cmake --build build
-ctest --test-dir build
+# Inspect lineage for any run
+python scripts/ingest_evidence.py lineage <run_id>
+
+# Re-verify an evidence bundle
+python scripts/replay_bundle.py evidence/bundles/bundle-*.zip
+
+# Print the elevator pitch
+python scripts/elevator_pitch.py
 ```
 
 ---
@@ -284,25 +362,41 @@ ctest --test-dir build
 <details>
 <summary><b>Is this real avionics software?</b></summary>
 
-No. It's a portfolio-grade workbench that mirrors how real avionics programs are structured. DAL ratings and failure conditions are assumptions for learning purposes.
+No. It's a portfolio-grade platform that mirrors how real avionics programs are structured. DAL / TQL ratings, failure conditions, and AI-level assignments are assumptions for learning purposes.
+</details>
+
+<details open>
+<summary><b>Why isn't AI in the control loop?</b> ⭐</summary>
+
+Because regulators currently don't accept it that way. **EASA AI Concept Paper (Issue 2, 2024)** is Level 1·2 only, with online learning and RL out of scope. **FAA AI Roadmap (v1)** distinguishes learned vs learning AI and emphasizes incremental adoption + runtime assurance. Phase D enforces this in code: `model.fit()` raises `OnlineLearningAttempt`, the loader refuses Advisory+ below `board-approved`, and the deterministic safety shell always has primary authority.
+
+📄 Full answer → [`docs/PhaseE/faq/why-ai-not-in-control-loop.md`](docs/PhaseE/faq/why-ai-not-in-control-loop.md)
 </details>
 
 <details>
-<summary><b>Why not just implement a fly-by-wire control law?</b></summary>
+<summary><b>How is this different from Skywise / Honeywell Forge / Collins?</b></summary>
 
-Because the hard part of flight software is rarely the law itself — it's the requirements tree, the integration, the verification, the traceability, and the evidence. This repo focuses on those.
+Same lakehouse + ML pattern, **different entry point**. Those are fleet-operations platforms — they consume post-flight data. This is a **certification-aligned verification platform** — it produces evidence before flight. Complementary, not competitive.
+
+📄 Full answer → [`docs/PhaseE/faq/vs-skywise-forge-collins.md`](docs/PhaseE/faq/vs-skywise-forge-collins.md)
+</details>
+
+<details>
+<summary><b>Why not implement a fly-by-wire control law?</b></summary>
+
+Because the hard part of flight software is rarely the law itself — it's the requirements tree, integration, verification, traceability, evidence, and assurance. This platform focuses on those.
 </details>
 
 <details>
 <summary><b>Where does AI fit?</b></summary>
 
-In the **assurance and tooling layer only**: trace gap detection, log triage, test skeletons, change-impact hints. Never in the command path. Every AI output is rendered as a `draft` and requires human review.
+In the **verification & assurance layer only**: escape predictor, engine anomaly detector (preventive alert / inspection candidate), trace gap intelligence. Never in the command path. Every AI output is rendered as `DRAFT` and requires human review per Phase C.
 </details>
 
 <details>
 <summary><b>Can I use this as a learning resource?</b></summary>
 
-Yes. The `docs/Mn` tree is intentionally written as a study path through DO-178C, ARP4754A, DO-297, and AC 20-175 in a hands-on context.
+Yes. The `docs/Mn` and `docs/PhaseX` trees are intentionally written as a study path through DO-178C, ARP4754A, DO-297, AC 20-175, EASA AI Concept Paper, and the FAA AI Roadmap — in a hands-on, code-anchored context.
 </details>
 
 ---

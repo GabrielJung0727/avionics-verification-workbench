@@ -54,6 +54,7 @@ from data_foundation import (                              # noqa: E402
     detect_drift,
     ingest_report,
 )
+import subprocess  # noqa: E402
 
 REQ_CSV = ROOT / "docs" / "M1" / "requirements" / "requirements.csv"
 TEST_DIR = ROOT / "tools" / "runner" / "test_cases"
@@ -360,6 +361,61 @@ def main() -> int:
     print(f"  silver rows:")
     for k, v in summary_ingest.rows_per_table.items():
         print(f"    {k}: {v}")
+
+    # ---- Phase B: train + register the three v0 models ---------------
+    print(f"\n=== Phase B intelligence ===")
+    rc = subprocess.call(
+        [sys.executable, str(ROOT / "scripts" / "train_intelligence.py")],
+        cwd=str(ROOT),
+    )
+    if rc != 0:
+        print(f"  FAIL (train_intelligence rc={rc})")
+        return 1
+    intel_summary = json.loads(
+        (EVIDENCE / "intelligence-summary.json").read_text(encoding="utf-8")
+    )
+    for r in intel_summary["registered"]:
+        print(f"  {r['name']:<26} v{r['version']:<8}  dir={r['dir']}")
+
+    # ---- Phase C: assurance lint + state invalidation gate -----------
+    from intelligence.governance import (
+        lint_all_cases,
+        detect_state_invalidations,
+    )
+    cases_dir = ROOT / "docs" / "PhaseC" / "cases"
+    print(f"\n=== Phase C assurance lint ===")
+    lint_reports = lint_all_cases(cases_dir)
+    bad_lint = [r for r in lint_reports if not r.ok]
+    for r in lint_reports:
+        marker = "OK " if r.ok else "!! "
+        print(f"  {marker}{r.path.name:<26} state={r.state}")
+        for s in r.missing_sections:
+            print(f"      missing section: {s}")
+        for f in r.missing_identity:
+            print(f"      missing identity field: {f}")
+        if r.invalid_state:
+            print(f"      invalid state: {r.invalid_state}")
+    if bad_lint:
+        return 1
+
+    print(f"\n=== Phase C change-impact reset ===")
+    invalidations = detect_state_invalidations(EVIDENCE / "registry")
+    if not invalidations:
+        print("  no registered models above auto-generated; nothing to reset")
+    else:
+        for inv in invalidations:
+            print(f"  !! {inv.model_name} {inv.version} -> would reset "
+                  f"({inv.current_state}); reasons: {', '.join(inv.reasons)}")
+
+    # ---- Phase D: shadow run (advisory observation only) -------------
+    print(f"\n=== Phase D shadow run ===")
+    rc = subprocess.call(
+        [sys.executable, str(ROOT / "scripts" / "run_shadow.py")],
+        cwd=str(ROOT),
+    )
+    if rc != 0:
+        print(f"  FAIL (run_shadow rc={rc})")
+        return 1
 
     if fail_count or err_count:
         return 1
