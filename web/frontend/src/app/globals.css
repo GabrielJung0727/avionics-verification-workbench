@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply bg-navy-900 text-ink-50 antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection {
+    background: rgba(245, 158, 11, 0.35);
+    color: #fff;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-md bg-graphite-900 shadow-panel border border-graphite-700;
+  }
+  .label-mono {
+    @apply font-mono uppercase tracking-wider text-[11px] text-ink-400;
+  }
+  .grid-bg {
+    @apply bg-grid bg-[size:32px_32px];
+  }
+  .ring-amber {
+    box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.45) inset;
+  }
+  .accent-amber  { color: #f59e0b; }
+  .accent-cyan   { color: #06b6d4; }
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-sm border border-graphite-600
+           px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-ink-200;
+  }
+  .badge-amber {
+    @apply border-amber/40 text-amber;
+  }
+  .badge-cyan {
+    @apply border-cyan/40 text-cyan;
+  }
+  .badge-ok {
+    @apply border-ok/40 text-ok;
+  }
+  .hr-thin {
+    @apply border-t border-graphite-700/70;
+  }
+}

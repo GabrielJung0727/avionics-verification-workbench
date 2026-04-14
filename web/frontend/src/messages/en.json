@@ -1,0 +1,329 @@
+{
+  "site": {
+    "title": "Avionics Verification Intelligence Platform",
+    "tagline": "Not an AI flight controller. A certification-aligned avionics verification intelligence platform combining a deterministic verification workbench with a bounded AI assurance layer.",
+    "owner": "Gabriel Jung",
+    "github": "GitHub",
+    "gitlab": "GitLab",
+    "wiki": "Wiki"
+  },
+  "nav": {
+    "home": "Home",
+    "platform": "Platform",
+    "workbench": "Workbench",
+    "intelligence": "Intelligence",
+    "demo": "Demo",
+    "standards": "Standards",
+    "docs": "Docs",
+    "results": "Results",
+    "about": "About",
+    "lang_label": "Language"
+  },
+  "common": {
+    "learn_more": "Learn more",
+    "view_source": "View source",
+    "open_repo": "Open repository",
+    "draft_banner": "DRAFT — Learning / portfolio artefact. Not certification evidence. DAL / TQL / AI-level ratings are hypotheses.",
+    "hard_line_label": "Hard line"
+  },
+  "home": {
+    "hero_eyebrow": "Certification-aligned",
+    "hero_h1": "Avionics Verification Intelligence Platform",
+    "hero_sub": "A deterministic verification workbench (M1–M6) and a governed AI assurance layer (Phase A–D) running from one repository.",
+    "cta_arch": "View architecture",
+    "cta_demo": "Run the demo",
+    "cta_docs": "Browse docs",
+    "cards_h": "Four pillars",
+    "cards": [
+      {
+        "title": "Deterministic Verification Workbench",
+        "body": "IMA-style partitioned scheduler, ARINC 429-lite, AFDX-lite, FCC / Engine / Display surrogates."
+      },
+      {
+        "title": "Requirements & Coverage",
+        "body": "Requirement-based JSON test runner, line + MC/DC coverage, fault-injection campaigns."
+      },
+      {
+        "title": "Evidence & Traceability",
+        "body": "Immutable evidence bundles (manifest + sha256 + replay), ingested into a Bronze/Silver/Gold lakehouse."
+      },
+      {
+        "title": "Governed AI Assurance Layer",
+        "body": "Frozen learned components + GSN-lite assurance cases + runtime assurance shell. Never inside the control loop."
+      }
+    ],
+    "does_h": "What the platform does",
+    "does": [
+      "Verification prioritization (escape predictor)",
+      "Early anomaly warning (engine anomaly)",
+      "Change-impact ranking (trace gap intel)",
+      "Reproducible evidence generation"
+    ],
+    "doesnt_h": "What the platform does NOT do",
+    "doesnt": [
+      "Autonomous AI flight control",
+      "Online learning (model.fit() raises OnlineLearningAttempt)",
+      "Reinforcement learning flight control",
+      "Automatic decisions without operator override"
+    ],
+    "metrics_h": "Current metrics",
+    "arch_caption": "Two layers, one evidence flow."
+  },
+  "platform": {
+    "h1": "Two layers, one story",
+    "intro": "The project is split into two clearly separated layers. Either layer stands on its own.",
+    "why_h": "Why this structure",
+    "why": [
+      "Instead of a single fly-by-wire demo, the project shows the full V&V / trace / evidence chain.",
+      "AI is added only inside what current guidance accepts (EASA Level 1·2 / FAA incremental).",
+      "The hard line is enforced in code — not promised in docs, but raised as exceptions."
+    ],
+    "layer_a_h": "Layer 1 — Deterministic Verification Workbench (M1–M6)",
+    "layer_a_body": "A traditional avionics V&V pipeline. Runs end-to-end without any AI.",
+    "layer_b_h": "Layer 2 — Verification Intelligence Platform (Phase A–E)",
+    "layer_b_body": "Data → models → assurance → bounded operation. Each step leaves certification-shaped artefacts.",
+    "audience_h": "Audience",
+    "audience": [
+      "Recruiters / hiring managers",
+      "Avionics software engineers",
+      "Systems & verification engineers",
+      "Researchers / professors"
+    ]
+  },
+  "workbench": {
+    "h1": "Deterministic Verification Workbench",
+    "intro": "Each milestone (M1–M6) has its own docs folder and Definition of Done.",
+    "stones": [
+      {
+        "id": "M1",
+        "h": "Foundation",
+        "body": "33 SYS + 35 HLR requirements, ICD v0, FC-01..12 safety hypotheses, ARP4754A flow."
+      },
+      {
+        "id": "M2",
+        "h": "Runtime + Bus",
+        "body": "Deterministic sim tick, IMA-style cooperative scheduler, ARINC 429-lite, AFDX-lite, hash-stable recorder."
+      },
+      {
+        "id": "M3",
+        "h": "Functional Modules",
+        "body": "FCC (cmd/mon lane diversity, mode reversion), Engine I/F (latch + hot/hung start), Display Computer, Data Concentrator."
+      },
+      {
+        "id": "M4",
+        "h": "Verification",
+        "body": "JSON test runner, line + MC/DC coverage, fault-injection campaigns (detected / mitigated / escaped)."
+      },
+      {
+        "id": "M5",
+        "h": "Human Factors + HIL",
+        "body": "AC 20-175 / 25.1322 evaluators, mode-confusion library, HIL-lite loopback (latency / jitter / drop / reboot)."
+      },
+      {
+        "id": "M6",
+        "h": "Evidence Delivery",
+        "body": "Hermetic bundle + manifest + sha256 + replay verification."
+      }
+    ]
+  },
+  "intelligence": {
+    "h1": "Verification Intelligence Platform",
+    "intro": "AI lives inside the verification + assurance layer only. The control loop and deterministic safety shell always retain primary authority.",
+    "phases": [
+      {
+        "id": "Phase A",
+        "h": "Enterprise Data Foundation",
+        "body": "Bronze / Silver / Gold lakehouse on SQLite (ANSI SQL maps to Databricks / BigQuery / Athena). 9 Silver tables; every row reachable by run_id. Schema-drift gate fails the build on silent breakage."
+      },
+      {
+        "id": "Phase B",
+        "h": "Certification Intelligence",
+        "body": "3 frozen learned components: escape predictor (sklearn GBC), engine anomaly (Isolation Forest), trace gap intel (rule-based v0 + ML interface). dataset_hash + label_version + approval_state bundle. Random splits forbidden."
+      },
+      {
+        "id": "Phase C",
+        "h": "Reviewable Safety Case",
+        "body": "GSN-lite assurance case with 12 required sections. 3-state approval workflow (auto → reviewer → board) with audit log. Self-review prohibited (PromotionError). DO-330 tool classification."
+      },
+      {
+        "id": "Phase D",
+        "h": "Bounded Operational AI",
+        "body": "Runtime assurance shell: range / rate / authority / watchdog. Shadow → Advisory → LimitedSupervised mode ladder. Loader refuses Advisory+ below board-approved. model.fit() / partial_fit() raise OnlineLearningAttempt."
+      },
+      {
+        "id": "Phase E",
+        "h": "Portfolio Packaging",
+        "body": "README v2, two FAQs, standards mapping v2, 1-page architecture (PDF-ready), 5-minute demo script v2, six position-tailored resume bullets, elevator pitch CLI."
+      }
+    ],
+    "hardline_h": "Hard line (enforced in Phase D code)",
+    "hardline": [
+      "AI lives in the verification layer only",
+      "The deterministic pipeline runs unchanged with or without AI",
+      "Models below board-approved cannot enter Advisory+ modes",
+      "Online learning is forbidden — blocked at code level"
+    ]
+  },
+  "demo": {
+    "h1": "One command. End-to-end. Five minutes.",
+    "cmd": "python scripts/run_verification.py",
+    "intro": "This single command runs all 174 tests, 6 verification cases, 3 fault campaigns, MC/DC, HF, HIL, evidence bundle, Phase A ingest, Phase B training, Phase C lint, and Phase D shadow run.",
+    "steps_h": "10-step flow",
+    "steps": [
+      "Verification runner — 6 requirement-based test cases pass",
+      "Fault campaigns — classified detected / mitigated / escaped",
+      "MC/DC — 100% on the two designated decisions",
+      "Human factors — 6/6 evaluators, 3/3 mode-confusion scenarios",
+      "HIL-lite — 4 configs (nominal / latency-5ms / drop-every-3 / reboot)",
+      "Evidence bundle — sha256 self-verified",
+      "Phase A — schema-drift gate + lakehouse ingest",
+      "Phase B — 3 frozen models trained + registered",
+      "Phase C — assurance case lint + change-impact gate",
+      "Phase D — engine anomaly shadow run; deterministic pipeline unaffected"
+    ],
+    "artifacts_h": "Artefacts",
+    "artifacts": [
+      "evidence/verification-report.json — full result set",
+      "evidence/bundles/bundle-*.zip — replayable archive",
+      "evidence/lakehouse/silver/catalog.sqlite — Silver tables",
+      "evidence/registry/<model>/<version>/ — registered models + meta",
+      "evidence/phaseD-shadow-report.json — shadow-run statistics"
+    ]
+  },
+  "standards": {
+    "h1": "Standards & guidance mapping",
+    "intro": "Learning-grade mapping that demonstrates engineering fluency. No certification credit is claimed.",
+    "warning": "DAL / TQL / AI-level ratings here are portfolio assumptions, not certification substantiation.",
+    "rows": [
+      { "doc": "DO-178C", "where": "Requirements tree, MC/DC + line coverage, objective mapping" },
+      { "doc": "DO-330", "where": "Phase C tool classification + TQL hypotheses" },
+      { "doc": "ARP4754A", "where": "System requirements flow + DAL assumptions + change procedure" },
+      { "doc": "ARP4761A", "where": "FC-01..12 failure conditions + safety analysis hypotheses" },
+      { "doc": "DO-297 / AC 20-170", "where": "M2 IMA partitioning, health monitoring, fault containment" },
+      { "doc": "AC 20-175", "where": "Flight-deck controls & alerting human-factors checklist" },
+      { "doc": "EASA AI Concept Paper (2024)", "where": "Phase B frozen=true + Phase D Shadow→Advisory ladder (Level 1·2)" },
+      { "doc": "FAA AI Roadmap (v1)", "where": "Phase D runtime assurance shell + incremental adoption + OnlineLearningAttempt" },
+      { "doc": "FAA Order 8110.49A", "where": "Phase A lineage queries (every Silver row reachable by run_id)" },
+      { "doc": "DO-160G", "where": "OUT OF SCOPE — explicit no-environmental-test disclaimer" },
+      { "doc": "DO-254", "where": "OUT OF SCOPE — no airborne electronic hardware activity" }
+    ],
+    "more": "Each standard has a 1-pager under docs/regulatory/."
+  },
+  "docs": {
+    "h1": "Documentation hub",
+    "intro": "M1–M6 workbench, Phase A–E intelligence, regulatory 1-pagers, demo scripts, and portfolio artefacts in one place.",
+    "categories": [
+      {
+        "h": "Workbench (M1–M6)",
+        "items": [
+          { "title": "M1 Foundation", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M1" },
+          { "title": "M2 Runtime + Bus", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M2" },
+          { "title": "M3 Functional Modules", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M3" },
+          { "title": "M4 Verification", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M4" },
+          { "title": "M5 HF + HIL", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M5" },
+          { "title": "M6 Evidence Delivery", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M6" }
+        ]
+      },
+      {
+        "h": "Intelligence (Phase A–E)",
+        "items": [
+          { "title": "Phase A Data Foundation", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/PhaseA" },
+          { "title": "Phase B Cert Intelligence", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/PhaseB" },
+          { "title": "Phase C Safety Case", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/PhaseC" },
+          { "title": "Phase D Bounded Op AI", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/PhaseD" },
+          { "title": "Phase E Portfolio v2", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/PhaseE" }
+        ]
+      },
+      {
+        "h": "Standards & Regulatory",
+        "items": [
+          { "title": "Regulatory stack index", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/regulatory/README.md" },
+          { "title": "Standards mapping v2", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/standards/standards-mapping-v2.md" },
+          { "title": "EASA AI Concept Paper memo", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/regulatory/easa-ai-concept-paper.md" },
+          { "title": "FAA AI Roadmap memo", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/regulatory/faa-ai-roadmap.md" },
+          { "title": "Master disclaimer", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/regulatory/disclaimer.md" }
+        ]
+      },
+      {
+        "h": "Demo & Portfolio",
+        "items": [
+          { "title": "Demo script v2", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/demo/demo-script-v2.md" },
+          { "title": "1-page architecture (PDF-ready)", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/portfolio/one-page-architecture.md" },
+          { "title": "FAQ — Why AI not in control loop", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/faq/why-ai-not-in-control-loop.md" },
+          { "title": "FAQ — vs Skywise / Forge / Collins", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/faq/vs-skywise-forge-collins.md" },
+          { "title": "Resume bullets v2", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/portfolio/resume-bullets-v2.md" }
+        ]
+      }
+    ]
+  },
+  "results": {
+    "h1": "Results & Evidence",
+    "intro": "Snapshot of the most recent local run. The same data is bundled into an evidence zip with sha256 self-verification.",
+    "groups": [
+      {
+        "h": "Tests & verification",
+        "rows": [
+          { "k": "Total tests", "v": "174 / 174 PASS" },
+          { "k": "Verification cases (PR gate)", "v": "6 / 6 PASS" },
+          { "k": "Fault campaigns", "v": "2 / 3 PASS (FC-003 intentional escape)" },
+          { "k": "MC/DC (designated decisions)", "v": "100% (fcc.validate, engine.latch_promote)" },
+          { "k": "Line coverage (avx_sim)", "v": "~33%" }
+        ]
+      },
+      {
+        "h": "Human factors & HIL",
+        "rows": [
+          { "k": "HF evaluators", "v": "6 / 6 PASS" },
+          { "k": "Mode-confusion scenarios", "v": "3 / 3 GREEN" },
+          { "k": "HIL-lite configurations", "v": "nominal · latency-5ms · drop-every-3 · reboot" }
+        ]
+      },
+      {
+        "h": "Phase B models (frozen)",
+        "rows": [
+          { "k": "fault_escape_predictor v0.1.0", "v": "AUC 0.99 / F1 0.92 (bench-seed split, 7% label noise)" },
+          { "k": "engine_anomaly_detector v0.1.0", "v": "detection 0.51 / false-alarm 0.05" },
+          { "k": "trace_gap_intel v0.1.0", "v": "precision@3 = 1.0 / MRR 1.0 (synthetic)" }
+        ]
+      },
+      {
+        "h": "Evidence bundle",
+        "rows": [
+          { "k": "Manifest entries", "v": "21+ files (manifest + inputs + results + trace + env)" },
+          { "k": "Self-verify", "v": "OK on sha256 match; non-zero exit on mismatch" },
+          { "k": "Replay", "v": "scripts/replay_bundle.py <bundle.zip>" }
+        ]
+      },
+      {
+        "h": "Phase A lakehouse",
+        "rows": [
+          { "k": "Silver tables", "v": "9 (run_manifest, verification_outcome, …)" },
+          { "k": "Gold views", "v": "daily_coverage · weekly_escape_rate · req_pass_rate · hil_latency_distribution" },
+          { "k": "Schema drift gate", "v": "PR FAIL on silent change" }
+        ]
+      }
+    ]
+  },
+  "about": {
+    "h1": "Project intent",
+    "intent_h": "Why this exists",
+    "intent": "Most avionics side-projects re-implement a fly-by-wire law and stop. This one focuses on what real flight-software teams actually deal with every day: V&V, traceability, evidence, and assurance lifecycle. The structure is intentionally one you can only build if you understand the certification lifecycle.",
+    "fit_h": "Position fit",
+    "fit": [
+      "Avionics flight software (FCC / mode logic / lane diversity)",
+      "Verification & Validation engineer (runner / coverage / fault campaigns)",
+      "Display / HMI engineer (alert priority / color rule / mode latency)",
+      "IMA / system integration",
+      "Defence / space (deterministic loopback HIL + runtime guardrails)",
+      "Data / platform engineer (lakehouse + frozen-model registry)"
+    ],
+    "contact_h": "Contact",
+    "contact": [
+      { "k": "GitHub", "v": "https://github.com/GabrielJung0727/avionics-verification-workbench" },
+      { "k": "GitLab", "v": "https://gitlab.com/GabrielJung0727/avionics-verification-workbench" },
+      { "k": "Wiki (Korean)", "v": "https://gitlab.com/GabrielJung0727/avionics-verification-workbench/-/wikis/home" }
+    ],
+    "disclaimer_h": "Disclaimer",
+    "disclaimer": "This repository is a learning / portfolio artefact. No DAL / IDAL / TQL / AI-level rating is substantiated. See docs/regulatory/disclaimer.md for the full statement."
+  }
+}

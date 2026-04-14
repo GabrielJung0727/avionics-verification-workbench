@@ -1,0 +1,329 @@
+{
+  "site": {
+    "title": "Avionics Verification Intelligence Platform",
+    "tagline": "비행 제어 AI가 아닙니다. 결정론적 검증 워크벤치 + 제한된 AI assurance layer로 만든 인증 정렬형 항공전자 검증 인텔리전스 플랫폼.",
+    "owner": "Gabriel Jung",
+    "github": "GitHub",
+    "gitlab": "GitLab",
+    "wiki": "Wiki"
+  },
+  "nav": {
+    "home": "홈",
+    "platform": "플랫폼",
+    "workbench": "검증 워크벤치",
+    "intelligence": "검증 인텔리전스",
+    "demo": "데모",
+    "standards": "규격·보증",
+    "docs": "문서",
+    "results": "결과·Evidence",
+    "about": "소개",
+    "lang_label": "언어"
+  },
+  "common": {
+    "learn_more": "자세히 보기",
+    "view_source": "소스 보기",
+    "open_repo": "저장소 열기",
+    "draft_banner": "DRAFT — 학습·포트폴리오 용도. 인증 evidence 아님. DAL/TQL/AI-level은 모두 가정값입니다.",
+    "hard_line_label": "Hard line"
+  },
+  "home": {
+    "hero_eyebrow": "Certification-aligned",
+    "hero_h1": "항공전자 검증 인텔리전스 플랫폼",
+    "hero_sub": "결정론적 검증 워크벤치(M1–M6)와 governed AI assurance layer(Phase A–D)를 한 저장소에서 동작시킵니다.",
+    "cta_arch": "아키텍처 보기",
+    "cta_demo": "데모 실행",
+    "cta_docs": "문서 둘러보기",
+    "cards_h": "이 플랫폼의 4개 기둥",
+    "cards": [
+      {
+        "title": "Deterministic Verification Workbench",
+        "body": "IMA-style 파티션 스케줄러 · ARINC 429-lite · AFDX-lite · FCC/Engine/Display 서로게이트."
+      },
+      {
+        "title": "Requirements & Coverage",
+        "body": "요구사항 기반 JSON 테스트 러너, line + MC/DC 커버리지, fault campaign 분류."
+      },
+      {
+        "title": "Evidence & Traceability",
+        "body": "변경 불가능한 evidence bundle(manifest + sha256 + replay), Bronze/Silver/Gold 레이크하우스로 적재."
+      },
+      {
+        "title": "Governed AI Assurance Layer",
+        "body": "Frozen 학습 컴포넌트 + GSN-lite assurance case + runtime assurance shell. 제어 루프엔 절대 진입 안 함."
+      }
+    ],
+    "does_h": "이 플랫폼이 하는 일",
+    "does": [
+      "검증 우선순위화 (escape predictor)",
+      "이상 조기 경보 (engine anomaly)",
+      "변경 영향 분석 보조 (trace gap intel)",
+      "재현 가능한 evidence 자동 생성"
+    ],
+    "doesnt_h": "이 플랫폼이 하지 않는 일",
+    "doesnt": [
+      "AI 자율 비행 제어",
+      "Online learning (model.fit() 호출 시 OnlineLearningAttempt raise)",
+      "Reinforcement learning flight control",
+      "Operator override 없는 자동 의사결정"
+    ],
+    "metrics_h": "현재 수치",
+    "arch_caption": "두 레이어가 하나의 evidence 흐름으로 결합됩니다."
+  },
+  "platform": {
+    "h1": "두 레이어, 하나의 이야기",
+    "intro": "이 프로젝트는 명확히 분리된 두 개의 레이어로 구성됩니다. 한쪽이 다른 쪽 없이도 그 자체로 완결됩니다.",
+    "why_h": "왜 이 구조인가",
+    "why": [
+      "단일 fly-by-wire 데모 대신 V&V·trace·evidence 전체 흐름을 보여줍니다.",
+      "AI는 인증 가이드라인이 현재 인정하는 범위 안에서만 들어갑니다 (EASA Level 1·2 / FAA incremental).",
+      "하드라인은 코드 레벨에서 강제됩니다 — 문서에 적힌 약속이 아니라 raise되는 예외로."
+    ],
+    "layer_a_h": "Layer 1 — Deterministic Verification Workbench (M1–M6)",
+    "layer_a_body": "전통적인 항공 SW V&V 파이프라인. 파티션 스케줄러부터 evidence bundle까지 AI 없이 동작합니다.",
+    "layer_b_h": "Layer 2 — Verification Intelligence Platform (Phase A–E)",
+    "layer_b_body": "데이터 → 모델 → assurance → 운영의 사슬. 각 단계가 인증 lifecycle 아티팩트를 남깁니다.",
+    "audience_h": "주요 대상",
+    "audience": [
+      "리쿠르터 / 채용 담당자",
+      "항공전자 SW 엔지니어",
+      "시스템·검증 엔지니어",
+      "연구자·교수"
+    ]
+  },
+  "workbench": {
+    "h1": "Deterministic Verification Workbench",
+    "intro": "M1부터 M6까지, 각 마일스톤은 자체 docs 폴더와 Definition of Done을 가집니다.",
+    "stones": [
+      {
+        "id": "M1",
+        "h": "Foundation",
+        "body": "33 SYS + 35 HLR 요구사항, ICD v0, 안전 분석 FC-01..12 가설, ARP4754A flow."
+      },
+      {
+        "id": "M2",
+        "h": "Runtime + Bus",
+        "body": "결정론적 sim tick, IMA-style cooperative scheduler, ARINC 429-lite, AFDX-lite, hash-stable recorder."
+      },
+      {
+        "id": "M3",
+        "h": "Functional Modules",
+        "body": "FCC (cmd/mon lane diversity, mode reversion), Engine I/F (latch + hot/hung start), Display Computer, Data Concentrator."
+      },
+      {
+        "id": "M4",
+        "h": "Verification",
+        "body": "JSON 테스트 러너, line + MC/DC 커버리지, fault-injection 캠페인 (detected / mitigated / escaped)."
+      },
+      {
+        "id": "M5",
+        "h": "Human Factors + HIL",
+        "body": "AC 20-175 / 25.1322 평가기 6종, mode-confusion 시나리오, HIL-lite loopback (latency/jitter/drop/reboot)."
+      },
+      {
+        "id": "M6",
+        "h": "Evidence Delivery",
+        "body": "Hermetic bundle + manifest + sha256 + replay verification."
+      }
+    ]
+  },
+  "intelligence": {
+    "h1": "Verification Intelligence Platform",
+    "intro": "AI는 verification + assurance layer 안에만 있습니다. 제어 루프와 deterministic safety shell은 항상 1차 권한을 유지합니다.",
+    "phases": [
+      {
+        "id": "Phase A",
+        "h": "Enterprise Data Foundation",
+        "body": "Bronze / Silver / Gold 레이크하우스 (SQLite, ANSI SQL → Databricks/BigQuery/Athena 호환). 9개 Silver 테이블, 모든 row가 run_id로 추적 가능. 스키마 드리프트 게이트가 빌드를 깨뜨립니다."
+      },
+      {
+        "id": "Phase B",
+        "h": "Certification Intelligence",
+        "body": "3개의 frozen 학습 컴포넌트: escape predictor (sklearn GBC), engine anomaly (Isolation Forest), trace gap intel (rule-based v0 + ML 인터페이스). dataset_hash + label_version + approval_state 묶음. Random split 금지."
+      },
+      {
+        "id": "Phase C",
+        "h": "Reviewable Safety Case",
+        "body": "GSN-lite assurance case 12 필수 섹션. 3-state 승인 워크플로우 (auto → reviewer → board) + 감사 로그. Self-review 금지 (PromotionError). DO-330 도구 분류."
+      },
+      {
+        "id": "Phase D",
+        "h": "Bounded Operational AI",
+        "body": "Runtime assurance shell: range / rate / authority / watchdog. Shadow → Advisory → LimitedSupervised 모드 사다리. board-approved 미만 모델은 Advisory+ 진입 불가. model.fit() / partial_fit()는 OnlineLearningAttempt를 raise."
+      },
+      {
+        "id": "Phase E",
+        "h": "Portfolio Packaging",
+        "body": "README v2, FAQ 2종, standards mapping v2, 1-page architecture (PDF-ready), 5분 데모 시나리오 v2, 6 position-tailored resume bullets, elevator pitch CLI."
+      }
+    ],
+    "hardline_h": "Hard line (Phase D 코드로 강제)",
+    "hardline": [
+      "AI는 verification layer 안에만 존재",
+      "Deterministic pipeline은 AI와 무관하게 항상 동작",
+      "approval_state가 낮으면 Advisory 이상 모드 진입 불가",
+      "Online learning 절대 금지 — 코드 레벨 차단"
+    ]
+  },
+  "demo": {
+    "h1": "한 명령. End-to-end. 5분.",
+    "cmd": "python scripts/run_verification.py",
+    "intro": "이 한 줄로 174 테스트, 6개 verification case, 3개 fault campaign, MC/DC, HF, HIL, evidence bundle, Phase A 적재, Phase B 학습, Phase C 린트, Phase D shadow run이 모두 실행됩니다.",
+    "steps_h": "10단계 흐름",
+    "steps": [
+      "Verification runner — 6개 requirement-based 테스트 PASS",
+      "Fault campaigns — detected / mitigated / escaped 분류",
+      "MC/DC — 두 designated decision에 100%",
+      "Human factors — 6/6 평가기, 3/3 mode confusion",
+      "HIL-lite — 4 config (nominal / latency-5ms / drop-every-3 / reboot)",
+      "Evidence bundle — sha256 자체 검증",
+      "Phase A — 스키마 드리프트 게이트 + lakehouse 적재",
+      "Phase B — 3개 frozen 모델 학습/등록",
+      "Phase C — assurance case lint + change-impact 게이트",
+      "Phase D — 엔진 anomaly shadow run (deterministic 파이프라인은 불변)"
+    ],
+    "artifacts_h": "산출물",
+    "artifacts": [
+      "evidence/verification-report.json — 전체 결과",
+      "evidence/bundles/bundle-*.zip — 재실행 가능한 묶음",
+      "evidence/lakehouse/silver/catalog.sqlite — Silver 테이블",
+      "evidence/registry/<model>/<version>/ — 등록된 모델 + 메타",
+      "evidence/phaseD-shadow-report.json — Shadow run 통계"
+    ]
+  },
+  "standards": {
+    "h1": "규격 및 가이던스 매핑",
+    "intro": "엔지니어링 어휘를 보여주는 학습용 매핑입니다. 인증 credit 주장 아님.",
+    "warning": "DAL · TQL · AI-level 등급은 모두 portfolio 가정값입니다. 인증 evidence가 아닙니다.",
+    "rows": [
+      { "doc": "DO-178C", "where": "요구사항 트리, MC/DC + line coverage, objective 매핑" },
+      { "doc": "DO-330", "where": "Phase C 도구 분류 + TQL 가설" },
+      { "doc": "ARP4754A", "where": "시스템 요구사항 흐름 + DAL 가정 + change procedure" },
+      { "doc": "ARP4761A", "where": "FC-01..12 failure conditions + 안전 분석 가설" },
+      { "doc": "DO-297 / AC 20-170", "where": "M2 IMA partitioning, health monitoring, fault containment" },
+      { "doc": "AC 20-175", "where": "Flight-deck controls & alerting human-factors checklist" },
+      { "doc": "EASA AI Concept Paper (2024)", "where": "Phase B frozen=true + Phase D Shadow→Advisory 사다리 (Level 1·2)" },
+      { "doc": "FAA AI Roadmap (v1)", "where": "Phase D runtime assurance shell + incremental adoption + OnlineLearningAttempt" },
+      { "doc": "FAA Order 8110.49A", "where": "Phase A lineage 쿼리 (모든 Silver row가 run_id로 추적 가능)" },
+      { "doc": "DO-160G", "where": "OUT OF SCOPE — 환경 시험을 하지 않는다는 명시적 disclaimer" },
+      { "doc": "DO-254", "where": "OUT OF SCOPE — 항공전자 HW 보증 활동 없음" }
+    ],
+    "more": "각 표준 1-pager는 docs/regulatory/ 폴더에 있습니다."
+  },
+  "docs": {
+    "h1": "문서 허브",
+    "intro": "M1–M6 워크벤치, Phase A–E 인텔리전스, 규격 1-pager, 데모 스크립트, 포트폴리오 자료까지 한 자리에서.",
+    "categories": [
+      {
+        "h": "Workbench (M1–M6)",
+        "items": [
+          { "title": "M1 Foundation", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M1" },
+          { "title": "M2 Runtime + Bus", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M2" },
+          { "title": "M3 Functional Modules", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M3" },
+          { "title": "M4 Verification", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M4" },
+          { "title": "M5 HF + HIL", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M5" },
+          { "title": "M6 Evidence Delivery", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/M6" }
+        ]
+      },
+      {
+        "h": "Intelligence (Phase A–E)",
+        "items": [
+          { "title": "Phase A Data Foundation", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/PhaseA" },
+          { "title": "Phase B Cert Intelligence", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/PhaseB" },
+          { "title": "Phase C Safety Case", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/PhaseC" },
+          { "title": "Phase D Bounded Op AI", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/PhaseD" },
+          { "title": "Phase E Portfolio v2", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/tree/main/docs/PhaseE" }
+        ]
+      },
+      {
+        "h": "Standards & Regulatory",
+        "items": [
+          { "title": "Regulatory stack index", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/regulatory/README.md" },
+          { "title": "Standards mapping v2", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/standards/standards-mapping-v2.md" },
+          { "title": "EASA AI Concept Paper memo", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/regulatory/easa-ai-concept-paper.md" },
+          { "title": "FAA AI Roadmap memo", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/regulatory/faa-ai-roadmap.md" },
+          { "title": "Master disclaimer", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/regulatory/disclaimer.md" }
+        ]
+      },
+      {
+        "h": "Demo & Portfolio",
+        "items": [
+          { "title": "Demo script v2", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/demo/demo-script-v2.md" },
+          { "title": "1-page architecture (PDF-ready)", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/portfolio/one-page-architecture.md" },
+          { "title": "FAQ — Why AI not in control loop", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/faq/why-ai-not-in-control-loop.md" },
+          { "title": "FAQ — vs Skywise / Forge / Collins", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/faq/vs-skywise-forge-collins.md" },
+          { "title": "Resume bullets v2", "href": "https://github.com/GabrielJung0727/avionics-verification-workbench/blob/main/docs/PhaseE/portfolio/resume-bullets-v2.md" }
+        ]
+      }
+    ]
+  },
+  "results": {
+    "h1": "결과 · Evidence",
+    "intro": "최근 로컬 실행 결과 스냅샷. 같은 데이터가 evidence bundle로 묶여 sha256으로 self-verify됩니다.",
+    "groups": [
+      {
+        "h": "테스트 & 검증",
+        "rows": [
+          { "k": "전체 테스트", "v": "174 / 174 PASS" },
+          { "k": "Verification cases (PR gate)", "v": "6 / 6 PASS" },
+          { "k": "Fault campaigns", "v": "2 / 3 PASS (FC-003 의도된 escape)" },
+          { "k": "MC/DC (designated decisions)", "v": "100% (fcc.validate, engine.latch_promote)" },
+          { "k": "Line coverage (avx_sim)", "v": "약 33%" }
+        ]
+      },
+      {
+        "h": "Human Factors & HIL",
+        "rows": [
+          { "k": "HF 평가기", "v": "6 / 6 PASS" },
+          { "k": "Mode-confusion 시나리오", "v": "3 / 3 GREEN" },
+          { "k": "HIL-lite 구성", "v": "nominal · latency-5ms · drop-every-3 · reboot" }
+        ]
+      },
+      {
+        "h": "Phase B 모델 (frozen)",
+        "rows": [
+          { "k": "fault_escape_predictor v0.1.0", "v": "AUC 0.99 / F1 0.92 (bench-seed split, 7% label noise)" },
+          { "k": "engine_anomaly_detector v0.1.0", "v": "detection 0.51 / false-alarm 0.05" },
+          { "k": "trace_gap_intel v0.1.0", "v": "precision@3 = 1.0 / MRR 1.0 (synthetic)" }
+        ]
+      },
+      {
+        "h": "Evidence bundle",
+        "rows": [
+          { "k": "Manifest 항목", "v": "21+ files (manifest + inputs + results + trace + env)" },
+          { "k": "Self-verify", "v": "sha256 hash 일치 시 OK, mismatch 시 비-0 종료" },
+          { "k": "Replay", "v": "scripts/replay_bundle.py <bundle.zip>" }
+        ]
+      },
+      {
+        "h": "Phase A 레이크하우스",
+        "rows": [
+          { "k": "Silver 테이블", "v": "9개 (run_manifest, verification_outcome, …)" },
+          { "k": "Gold 뷰", "v": "daily_coverage · weekly_escape_rate · req_pass_rate · hil_latency_distribution" },
+          { "k": "스키마 드리프트 게이트", "v": "변경 감지 시 PR FAIL" }
+        ]
+      }
+    ]
+  },
+  "about": {
+    "h1": "프로젝트 의도",
+    "intent_h": "왜 이 프로젝트를 만들었는가",
+    "intent": "흔한 fly-by-wire 데모 대신, 실제 항공 SW 팀이 매일 다루는 V&V · traceability · evidence · assurance lifecycle을 코드로 풀어내고 싶었습니다. 인증 lifecycle을 모르면 만들 수 없는 구조를 의도적으로 골랐습니다.",
+    "fit_h": "어떤 역할에 맞는 포트폴리오인가",
+    "fit": [
+      "Avionics flight software (FCC / mode logic / lane diversity)",
+      "Verification & Validation engineer (runner / coverage / fault campaigns)",
+      "Display / HMI engineer (alert priority / color rule / mode latency)",
+      "IMA / system integration",
+      "Defence / space (deterministic loopback HIL + runtime guardrails)",
+      "Data / platform engineer (Lakehouse + frozen-model registry)"
+    ],
+    "contact_h": "연락처",
+    "contact": [
+      { "k": "GitHub", "v": "https://github.com/GabrielJung0727/avionics-verification-workbench" },
+      { "k": "GitLab", "v": "https://gitlab.com/GabrielJung0727/avionics-verification-workbench" },
+      { "k": "Wiki (한국어)", "v": "https://gitlab.com/GabrielJung0727/avionics-verification-workbench/-/wikis/home" }
+    ],
+    "disclaimer_h": "Disclaimer",
+    "disclaimer": "이 저장소는 학습·포트폴리오 산출물입니다. 어떤 DAL / IDAL / TQL / AI-level 분류도 substantiated되지 않았습니다. 자세한 내용은 docs/regulatory/disclaimer.md를 참고하세요."
+  }
+}
