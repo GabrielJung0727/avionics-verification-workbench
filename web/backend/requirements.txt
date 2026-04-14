@@ -1,0 +1,7 @@
+# web/backend dependencies — read-only API surface only.
+# Pinned to versions verified locally; bumping these is a Phase C
+# re-qualification trigger only if the backend is ever used to claim
+# certification credit (it isn't today — see disclaimer.md).
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+httpx==0.27.0
